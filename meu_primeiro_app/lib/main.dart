@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,10 +13,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.lightGreen,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Frases do Dia'),
     );
   }
 }
@@ -29,11 +31,21 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+
+  int _numeroAleatorio = 0;
+
+  List _frases = [
+    'Encare o que fez de errado com motivação, pois é isso que o ajudará a fazer certo da próxima vez.',
+    'Há dias que você tem que ir para a frente só com o que você tem na mão, não dá para esperar pela motivação.',
+    'Arrisque, vá em frente e sem medo! Não há motivação maior do que descobrir quão corajosos conseguimos ser.',
+    'Eu acredito em você e na sua capacidade porque conheço o seu esforço e a sua motivação. Não desista!'
+  ];
 
   void _incrementCounter() {
     setState(() {
-      _counter++;
+
+      _numeroAleatorio = new Random().nextInt(4);
+
     });
   }
 
@@ -52,10 +64,10 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'You have pushed the button this many times:',
+              'Pressione o botão para gerar ma frase:',
             ),
             Text(
-              '$_counter',
+              _frases[_numeroAleatorio],
               style: Theme.of(context).textTheme.headline4,
             ),
           ],
