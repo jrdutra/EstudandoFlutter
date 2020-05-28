@@ -2,75 +2,61 @@ import 'package:flutter/material.dart';
 
 void main(){
   runApp(MaterialApp(
+    home: Home(),
     debugShowCheckedModeBanner: false,
-    home: HomeStatful()
   ));
 }
 
-class HomeStatful extends StatefulWidget {
+class Home extends StatefulWidget {
   @override
-  _HomeStatfulState createState() => _HomeStatfulState();
+  _HomeState createState() => _HomeState();
 }
 
-class _HomeStatfulState extends State<HomeStatful> {
-  var _texto = "João Ricardo";
-
+class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Instagram"),
+        title: Text("Frases do Dia"),
         backgroundColor: Colors.green,
       ),
-      body: Container(
-        child: Column(
-          children: <Widget>[
-            RaisedButton(
-              onPressed: (){
-                print("Clicado");
-                setState(() {
-                  _texto = "Curso Flutter";
-                });
-              },
-              child: Text("Clique aqui"),
-            ),
-            Text("Nome:  $_texto")
-          ],
-        ),
-      )
-
-    );
-  }
-}
-
-
-class Home extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-
-    var _titulo = "Instagram";
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(_titulo),
-        backgroundColor: Colors.green,
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(16),
-        child: Text("Conteúdo principal"),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.lightGreen,
-        child: Padding(
+      body: Center(
+        child: Container(
           padding: EdgeInsets.all(16),
-          child: Row(
+          //width: double.infinity,
+          /*decoration: BoxDecoration(
+              border: Border.all(width: 3, color: Colors.amber)
+          ),*/
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Text("Texto 1"),
-              Text("Texto 2")
+              Image.asset("images/logo.png"),
+              Text(
+                "Clique abaixo para gerar uma frase.",
+                textAlign: TextAlign.justify,
+                style: TextStyle(
+                    fontSize: 25,
+                    fontStyle: FontStyle.italic,
+                    color: Colors.black
+                ),
+              ),
+              RaisedButton(
+                child: Text(
+                  "Nova Frase",
+                  style: TextStyle(
+                      fontSize: 25,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold
+                  ),
+                ),
+                color: Colors.green,
+                onPressed: (){},
+              )
             ],
           ),
         ),
-      ),
+      )
     );
   }
 }
