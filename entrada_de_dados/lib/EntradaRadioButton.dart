@@ -77,6 +77,6 @@ class _EntradaRadioButtonState extends State<EntradaRadioButton> {
           ],
         ),
       ),
-    );;
+    );
   }
 }
