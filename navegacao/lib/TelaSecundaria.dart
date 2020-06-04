@@ -22,7 +22,7 @@ class _TelaSecundariaState extends State<TelaSecundaria> {
         padding: EdgeInsets.all(32),
         child: Column(
           children: <Widget>[
-            Text("Segunda Tela! Valor Passado ${widget.valor}")
+            Text("Segunda Tela! ")
           ],
         ),
       ),

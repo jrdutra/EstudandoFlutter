@@ -4,6 +4,10 @@ import 'package:navegacao/TelaSecundaria.dart';
 
 void main() {
   runApp(MaterialApp(
+    initialRoute: "/",
+    routes: {
+      "/secundaria" : (context) => TelaSecundaria()
+    },
     home: TelaPrincipal(),
   ));
 }
@@ -35,12 +39,7 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
               color: Colors.blue,
               padding: EdgeInsets.all(15),
               onPressed: (){
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => TelaSecundaria(valor: "Joao")
-                      )
-                  );
+                  Navigator.pushNamed(context, "/secundaria");
               },
             )
           ],
