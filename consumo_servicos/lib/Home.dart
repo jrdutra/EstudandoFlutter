@@ -10,10 +10,13 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
+  TextEditingController _controllerCep = TextEditingController();
+  String _resultado = "Resultado";
+
   _recuperarCep() async {
 
-    String cep = "27963762";
-    String url = "https://viacep.com.br/ws/${cep}/json/";
+    String cepDigitado = _controllerCep.text;
+    String url = "https://viacep.com.br/ws/${cepDigitado}/json/";
     http.Response response;
 
     response = await http.get(url);
@@ -29,12 +32,9 @@ class _HomeState extends State<Home> {
         " Bairro: " + bairro +
         " Localidade: " + localidade
     );
-
-
-    //print("Status  : " + response.statusCode.toString());
-    //print("Resposta: " + response.body);
-
-
+    setState(() {
+      _resultado = "${logradouro}, ${complemento}, ${bairro}, ${localidade}";
+    });
   }
 
   @override
@@ -42,14 +42,34 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Consumo de Serviço WEB"),
+        backgroundColor: Colors.amber,
       ),
       body: Container(
+        color: Colors.blue,
         padding: EdgeInsets.all(40),
         child: Column(
           children: <Widget>[
+            TextField(
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                labelText: "Digite o CEP: Ex: 27963762"
+              ),
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.white
+              ),
+              controller: _controllerCep,
+            ),
             RaisedButton(
+              color: Colors.amber,
               child: Text("Clique Aqui"),
               onPressed: _recuperarCep,
+            ),
+            Text(
+              _resultado,
+              style: TextStyle(
+                  color: Colors.white
+              ),
             )
           ],
         ),
