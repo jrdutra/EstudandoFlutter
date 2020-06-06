@@ -25,7 +25,9 @@ class Api {
 
       if(response.statusCode == 200){
 
-        print("Resultado: " + response.body);
+
+        Map<String, dynamic> dadosJson = json.decode(response.body);
+        print("Resultado: " + dadosJson["items"][2]["snippet"]["title"]);
 
       }else{
 
