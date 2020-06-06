@@ -35,7 +35,6 @@ class _HomeState extends State<Home> {
                 double valor = snapshot.data["BRL"]["buy"];
                 resultado = "Preço do bitcoin: R\$ " + valor.toString();
               }
-
               break;
           }
           return Center(
