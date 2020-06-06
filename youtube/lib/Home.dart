@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:youtube/Telas/Biblioteca.dart';
+import 'package:youtube/Telas/EmAlta.dart';
+import 'package:youtube/Telas/Inicio.dart';
+import 'package:youtube/Telas/Inscricao.dart';
 
 
 class Home extends StatefulWidget {
@@ -7,8 +11,19 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  int _indiceAtual = 0;
+
   @override
   Widget build(BuildContext context) {
+
+    List<Widget> telas = [
+      Inicio(),
+      EmAlta(),
+      Inscricao(),
+      Biblioteca()
+    ];
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -41,7 +56,44 @@ class _HomeState extends State<Home> {
           )
         ],
       ),
-      body: Container(),
+      body: telas[_indiceAtual],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _indiceAtual,
+        onTap: (indice){
+            setState(() {
+              _indiceAtual = indice;
+            });
+        },
+        type: BottomNavigationBarType.fixed,
+        fixedColor: Colors.red,
+        items: [
+          BottomNavigationBarItem(
+            //backgroundColor: Colors.orange,
+            title: Text("Início"),
+            icon: Icon(Icons.home),
+
+          ),
+          BottomNavigationBarItem(
+            //backgroundColor: Colors.blue,
+            title: Text("Em Alta"),
+            icon: Icon(Icons.whatshot),
+
+          ),
+          BottomNavigationBarItem(
+            //backgroundColor: Colors.pink,
+            title: Text("Inscrições"),
+            icon: Icon(Icons.subscriptions),
+
+          ),
+          BottomNavigationBarItem(
+            //backgroundColor: Colors.amber,
+            title: Text("Biblioteca"),
+            icon: Icon(Icons.folder),
+
+          ),
+
+        ],
+      ),
     );
   }
 }
