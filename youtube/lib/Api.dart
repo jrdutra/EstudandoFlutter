@@ -19,9 +19,18 @@ class Api {
               "&maxResults=20"
               "&order=date"
               "&key=$CHAVE_YOUTUBE_API"
-              //"&channelId=$ID_CANAL"
+              "&channelId=$ID_CANAL"
               "&q=$pesquisa"
       );
+
+      print("URL:" + URL_BASE + "search"
+          "?part=snippet"
+          "&type=video"
+          "&maxResults=20"
+          "&order=date"
+          "&key=$CHAVE_YOUTUBE_API"
+          "&channelId=$ID_CANAL"
+          "&q=$pesquisa");
 
       if(response.statusCode == 200){
         Map<String, dynamic> dadosJson = json.decode(response.body);
@@ -31,6 +40,7 @@ class Api {
             }
         ).toList();
 
+        print("Videos"+videos.toString());
         return videos;
       }else{
 

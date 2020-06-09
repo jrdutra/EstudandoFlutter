@@ -16,6 +16,12 @@ class Video{
       imagem: json["snippet"]["thumbnails"]["high"]["url"],
       canal: json["snippet"]["channelTitle"],
     );
+
+  }
+
+  @override
+  String toString() {
+    return 'Video{id: $id, titulo: $titulo, descricao: $descricao, imagem: $imagem, canal: $canal}';
   }
 
 
