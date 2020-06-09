@@ -19,7 +19,7 @@ class Api {
               "&maxResults=20"
               "&order=date"
               "&key=$CHAVE_YOUTUBE_API"
-              "&channelId=$ID_CANAL"
+              //"&channelId=$ID_CANAL"
               "&q=$pesquisa"
       );
 

@@ -19,7 +19,7 @@ class CustomSearchDelegate extends SearchDelegate<String> {
     ];
   }
 
-  //Botao a direita da barra pesquisar
+  //Botao a direita da barra pesquisar (Voltar)
   @override
   Widget buildLeading(BuildContext context) {
 
@@ -28,7 +28,7 @@ class CustomSearchDelegate extends SearchDelegate<String> {
         Icons.arrow_back,
       ),
       onPressed: (){
-          close(context, null);
+          close(context, "");
       },
     );
   }
@@ -41,10 +41,38 @@ class CustomSearchDelegate extends SearchDelegate<String> {
     return Container();
   }
 
+  //Parte das sugestões
   @override
   Widget buildSuggestions(BuildContext context) {
-    //print("resultado: digitado " + query);
-    return Container();
+
+    List<String> lista = List();
+
+    if(query.isNotEmpty){
+
+      lista = [
+        "Android", "Android navegação", "IOS", "Jogos"
+      ].where(
+          (texto) => texto.toLowerCase().startsWith(query.toLowerCase())
+      ).toList();
+
+      return ListView.builder(
+                itemCount: lista.length,
+                itemBuilder: (contex, index){
+                  return ListTile(
+                    onTap: (){
+                      close(context, lista[index]);
+                    },
+                    title: Text(lista[index]),
+                  );
+                },
+             );
+
+    }else{
+      return Center(
+        child: Text("Nenhum resultado para a pesquisa"),
+      );
+    }
+
   }
 
 
