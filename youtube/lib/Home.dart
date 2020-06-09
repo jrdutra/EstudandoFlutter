@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youtube/CustomSearchDelegate.dart';
 import 'package:youtube/Telas/Biblioteca.dart';
 import 'package:youtube/Telas/EmAlta.dart';
 import 'package:youtube/Telas/Inicio.dart';
@@ -40,7 +41,10 @@ class _HomeState extends State<Home> {
           IconButton(
             icon: Icon(Icons.search),
             onPressed: (){
-              print("acao: Pesquisa");
+                showSearch(
+                    context: context,
+                    delegate: CustomSearchDelegate()
+                );
             },
           ),
 
