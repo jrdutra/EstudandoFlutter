@@ -36,24 +36,15 @@ class _HomeState extends State<Home> {
           width: 100,
         ),
         actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.videocam),
-            onPressed: (){
-              print("acao: VideoCam");
-            },
-          ),
+
           IconButton(
             icon: Icon(Icons.search),
             onPressed: (){
               print("acao: Pesquisa");
             },
           ),
-          IconButton(
-            icon: Icon(Icons.account_circle),
-            onPressed: (){
-              print("acao: Conta");
-            },
-          )
+
+
         ],
       ),
       body: Container(
