@@ -23,14 +23,14 @@ class Api {
               "&q=$pesquisa"
       );
 
-      print("URL:" + URL_BASE + "search"
+      /*print("URL:" + URL_BASE + "search"
           "?part=snippet"
           "&type=video"
           "&maxResults=20"
           "&order=date"
           "&key=$CHAVE_YOUTUBE_API"
           "&channelId=$ID_CANAL"
-          "&q=$pesquisa");
+          "&q=$pesquisa");*/
 
       if(response.statusCode == 200){
         Map<String, dynamic> dadosJson = json.decode(response.body);

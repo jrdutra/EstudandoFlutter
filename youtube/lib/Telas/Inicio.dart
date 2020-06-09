@@ -22,8 +22,35 @@ class _InicioState extends State<Inicio> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    print("Chamado 1 - initState");
+
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    print("Chamado 2 - didChangeDependencies");
+  }
+
+  @override
+  void didUpdateWidget(Inicio oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    print("Chamado 2 - didUpdateWidget");
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    print("Chamado 4 - dispose");
+  }
+
+  @override
   Widget build(BuildContext context) {
-    print("Pesquisa: "+widget.pesquisa);
+
+    print("Chamado 3 - build");
+
     return FutureBuilder<List<Video>>(
       future: _listarVideos( widget.pesquisa),
       builder: (context, snapshot){
