@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -9,12 +10,39 @@ class _HomeState extends State<Home> {
 
   TextEditingController _controllerCampo = TextEditingController();
 
-  _salvar(){
+  String _textoSalvo = "Nada Salvo";
+
+  _salvar() async{
+
+    String valorDigitado = _controllerCampo.text;
+
+    final prefs = await SharedPreferences.getInstance();
+
+    await prefs.setString("nome", valorDigitado);
+
+    setState(() {
+      _controllerCampo.text = "";
+    });
+
+
+
+    print("Salvo: " + valorDigitado);
 
   }
 
-  _recuperar(){
+  _recuperar() async{
 
+    final prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      _textoSalvo = prefs.getString("nome") ?? "Sem valor";
+    });
+    print("Recuperado : " + _textoSalvo);
+  }
+
+  _remover()async{
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove("nome");
   }
 
   @override
@@ -28,7 +56,7 @@ class _HomeState extends State<Home> {
         child: Column(
           children: <Widget>[
             Text(
-              "Nada Salvo",
+              _textoSalvo,
               style: TextStyle(
                 fontSize: 28
               ),
@@ -59,6 +87,13 @@ class _HomeState extends State<Home> {
                   padding: EdgeInsets.all(15),
                   child: Text("Recuperar"),
                   onPressed: _recuperar,
+                ),
+                RaisedButton(
+                  color: Colors.blue,
+                  textColor: Colors.white,
+                  padding: EdgeInsets.all(15),
+                  child: Text("Remover"),
+                  onPressed: _remover,
                 )
               ],
             )
