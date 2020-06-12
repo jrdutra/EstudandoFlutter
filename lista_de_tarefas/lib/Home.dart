@@ -13,6 +13,7 @@ class _HomeState extends State<Home> {
 
   List<dynamic> _listaTarefas = [];
   TextEditingController _controllerTarefa = TextEditingController();
+  Map<String, dynamic> _ultimoRemovido = Map();
 
   Future<File>_getFile() async{
     final diretorio = await getApplicationDocumentsDirectory();
@@ -57,6 +58,65 @@ class _HomeState extends State<Home> {
         _listaTarefas = json.decode(daods);
       });
     });
+  }
+
+  Widget criarItemLista(context, index){
+
+    return Dismissible(
+        direction: DismissDirection.endToStart,
+        onDismissed: (direction){
+
+          _ultimoRemovido = _listaTarefas[index];
+
+          _listaTarefas.removeAt(index);
+          _salvarArquivo();
+
+          final snackBar = SnackBar(
+            //backgroundColor: Colors.green,
+            action: SnackBarAction(
+              label: "Desfazer",
+              onPressed: (){
+
+                setState(() {
+                  _listaTarefas.insert(index, _ultimoRemovido);
+
+                });
+                _salvarArquivo();
+
+              },
+            ),
+            content: Text("Tarefa removida!"),
+          );
+
+          Scaffold.of(context).showSnackBar(snackBar);
+        },
+        background: Container(
+          color: Colors.red,
+          padding: EdgeInsets.all(16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              Icon(
+                Icons.delete,
+                color: Colors.white,
+              )
+            ],
+          ),
+        ),
+        key: Key(_listaTarefas[index]['titulo']+index.toString()+DateTime.now().millisecondsSinceEpoch.toString()),
+        child: CheckboxListTile(
+          title: Text(_listaTarefas[index]['titulo']),
+          value: _listaTarefas[index]['realizada'],
+          activeColor: Colors.purple,
+          checkColor: Colors.white,
+          onChanged: (valorAlterado){
+            setState(() {
+              _listaTarefas[index]['realizada'] = valorAlterado;
+            });
+            _salvarArquivo();
+          },
+        )
+    );
   }
 
 
@@ -113,24 +173,7 @@ class _HomeState extends State<Home> {
           Expanded(
             child: ListView.builder(
                 itemCount: _listaTarefas.length,
-                itemBuilder: (context, index){
-                  return CheckboxListTile(
-                    title: Text(_listaTarefas[index]['titulo']),
-                    value: _listaTarefas[index]['realizada'],
-                    activeColor: Colors.purple,
-                    checkColor: Colors.white,
-                    onChanged: (valorAlterado){
-                      setState(() {
-                        _listaTarefas[index]['realizada'] = valorAlterado;
-                      });
-                      _salvarArquivo();
-                    },
-                  );
-                  /*
-                  return ListTile(
-                    title: Text(_listaTarefas[index]['titulo']),
-                  );*/
-                }
+                itemBuilder: criarItemLista
             ),
           )
         ],
