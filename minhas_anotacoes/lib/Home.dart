@@ -112,10 +112,6 @@ class _HomeState extends State<Home> {
       int resultado = await _db.atualizarNota(anotacaoSelecionada);
     }
 
-
-
-
-
     _tituloController.clear();
     _descricaoController.clear();
 
@@ -133,6 +129,11 @@ class _HomeState extends State<Home> {
     String dataFormatada = formatador.format(dataConvertida);
 
     return dataFormatada;
+  }
+
+  _removerAnotacao(int id) async {
+      await _db.removerAnotacao(id);
+      _recuperarAnotacoes();
   }
 
   @override
@@ -179,7 +180,7 @@ class _HomeState extends State<Home> {
                        ),
                        GestureDetector(
                          onTap: (){
-
+                            _removerAnotacao(anotacao.id);
                          },
                          child: Padding(
                            padding: EdgeInsets.only(right: 0),
