@@ -1,6 +1,9 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -84,9 +87,9 @@ void main() async{
   //LOGIN DE USUARIOS
   //======================
 
-  FirebaseAuth auth = FirebaseAuth.instance;
-  String email = "jrdutra.com.br@gmail.com";
-  String senha = "Jrdutra1";
+  //FirebaseAuth auth = FirebaseAuth.instance;
+  //String email = "jrdutra.com.br@gmail.com";
+  //String senha = "Jrdutra1";
 
   /*auth.createUserWithEmailAndPassword(
       email: email, 
@@ -98,7 +101,7 @@ void main() async{
   });*/
 
   //auth.signOut();
-
+  /*
   auth.signInWithEmailAndPassword(
       email: email,
       password: senha).then((firebaseUser) {
@@ -112,14 +115,112 @@ void main() async{
     print("Usuario logado email:" + usuarioAtual.email);
   }else{
     print("Usuario deslogado.");
-  }
+  }*/
 
-  runApp(App());
+  runApp(MaterialApp(
+    home: Home(),
+  ));
 }
 
-class App extends StatelessWidget {
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+
+  File _imagem;
+  String _statusUpload = "Upload nao iniciado...";
+  String _urlRecuperada = null;
+
+  Future _arecuperarImagem(bool daCamera) async{
+
+    File _imagemSelecionada;
+
+    if(daCamera){
+      _imagemSelecionada = await ImagePicker.pickImage(source: ImageSource.camera);
+    }else{
+      _imagemSelecionada = await ImagePicker.pickImage(source: ImageSource.gallery);
+    }
+
+    setState(() {
+      _imagem = _imagemSelecionada;
+    });
+
+  }
+
+  Future _uploadImagem(){
+    FirebaseStorage storage = FirebaseStorage.instance;
+    StorageReference pastaRaiz = storage.ref();
+    StorageReference arquivo = pastaRaiz.child("fotos").child("fotos.jpg");
+    StorageUploadTask task = arquivo.putFile(_imagem);
+
+    task.events.listen((StorageTaskEvent storageEvent){
+
+          if(storageEvent.type == StorageTaskEventType.progress){
+            setState(() {
+              _statusUpload = "Em progresso";
+            });
+          }else if(storageEvent.type == StorageTaskEventType.success){
+            setState(() {
+              _statusUpload = "Upload realizado com sucesso!";
+            });
+          }
+    });
+
+    task.onComplete.then((StorageTaskSnapshot snapshot){
+        _recuperarUrlImagem(snapshot);
+    });
+
+  }
+
+  Future _recuperarUrlImagem(StorageTaskSnapshot snapshot) async{
+      String url = await snapshot.ref.getDownloadURL();
+
+      print("URL: "+url);
+
+      setState(() {
+        _urlRecuperada = url;
+      });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Carregando imagens"),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Text(_statusUpload),
+            RaisedButton(
+              child: Text("Camera"),
+              onPressed: (){
+                _arecuperarImagem(true);
+              },
+            ),
+            RaisedButton(
+              child: Text("Galeria"),
+              onPressed: (){
+                _arecuperarImagem(false);
+              },
+            ),
+            _imagem == null ?
+            Container() :
+            Image.file(_imagem),
+            RaisedButton(
+              child: Text("Upload Storage"),
+              onPressed: (){
+                _uploadImagem();
+              },
+            ),
+            _urlRecuperada == null ?
+                Container() :
+                Image.network(_urlRecuperada)
+          ],
+        ),
+      )
+    );
   }
 }
