@@ -48,7 +48,7 @@ void main() async{
     var dados = item.data;
     print("dados usuarios: " + dados.toString());
   }*/
-
+  /*
   db.collection("usuarios")
       .snapshots()
       .listen(
@@ -58,7 +58,22 @@ void main() async{
               print("dados usuarios: " + dados.toString());
             }
           }
-  );
+  );*/
+  var pesquisa = "an";
+  QuerySnapshot querySnapshot = await db.collection("usuarios")
+  //.where("nome", isEqualTo: "jamilton").
+  //.where("idade", isGreaterThan: 28)
+  //.orderBy("idade", descending: true)
+  //.orderBy("nome", descending: false)
+  //.limit(2)
+  .where("nome", isGreaterThanOrEqualTo: pesquisa)
+  .where("nome", isLessThanOrEqualTo: pesquisa + "\uf8ff")
+  .getDocuments();
+
+  for(DocumentSnapshot item in querySnapshot.documents){
+      var dados = item.data;
+      print("DADOS: " + dados.toString());
+  }
 
   runApp(App());
 }
