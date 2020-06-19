@@ -97,12 +97,21 @@ void main() async{
     print("Novo usuario: erro: " + erro.toString());
   });*/
 
+  //auth.signOut();
+
+  auth.signInWithEmailAndPassword(
+      email: email,
+      password: senha).then((firebaseUser) {
+    print("Logado usuario: Sucesso!! e-mail: " + firebaseUser.email);
+  }).catchError((erro){
+    print("Novo usuario: erro: " + erro.toString());
+  });
+
   FirebaseUser usuarioAtual = await auth.currentUser();
-
   if(usuarioAtual != null){
-      
+    print("Usuario logado email:" + usuarioAtual.email);
   }else{
-
+    print("Usuario deslogado.");
   }
 
   runApp(App());
