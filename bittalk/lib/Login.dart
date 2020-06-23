@@ -22,12 +22,17 @@ class _LoginState extends State<Login> {
         child: Center(
           child: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(bottom: 32),
+                  padding: EdgeInsets.only(
+                      bottom: 32,
+                      left: queryData.size.width*0.2,
+                      right: queryData.size.width*0.2
+                  ),
                   child: Image.asset(
                       "assets/images/logo.png",
-                      width: queryData.size.width*0.6,
+                      //width: queryData.size.width*0.2,
                   ),
                 ),
                 Padding(
@@ -53,8 +58,8 @@ class _LoginState extends State<Login> {
                 Padding(
                   padding: EdgeInsets.only(bottom: 8),
                   child: TextField(
-                    autofocus: true,
-                    keyboardType: TextInputType.emailAddress,
+
+                    keyboardType: TextInputType.text,
                     style: TextStyle(
                       fontSize: 20,
                       color: Color(0xff00f004),
@@ -62,13 +67,48 @@ class _LoginState extends State<Login> {
                     decoration: InputDecoration(
                         contentPadding: EdgeInsets.fromLTRB(32, 7, 32, 7),
                         hintText: "Senha",
-
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5),
                         )
                     ),
                   ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 16, bottom: 10),
+                  child: RaisedButton(
+                    child: Text(
+                      "Entrar",
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Color(0xff00f004)
+                      ),
+                    ),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                        side: BorderSide(
+                            color:Color(0xff00f004),
+                            width: 2
+                        )
+                    ),
+                    color: Colors.black,
+                    padding: EdgeInsets.fromLTRB(32, 7, 32, 7),
+                    onPressed: (){
 
+                    },
+                  ),
+                ),
+                Center(
+                  child: GestureDetector(
+                    child: Text(
+                      "Não tem conta? Cadastre-se!",
+                      style: TextStyle(
+                        color: Colors.green
+                      ),
+                    ),
+                    onTap: (){
+
+                    },
+                  ),
                 )
               ],
             ),
