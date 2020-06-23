@@ -28,9 +28,11 @@ flutter_icons:
   ios: true
 
 flutter:
-
+  fonts:
+    - family: Consolas
+      fonts:
+        - asset: assets/fonts/consolas-bold.ttf
   uses-material-design: true
-
   assets:
     - assets/images/logo.png
     - assets/images/icon.png
