@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "269248216764",
+    "firebase_url": "https://bittalk-708e5.firebaseio.com",
+    "project_id": "bittalk-708e5",
+    "storage_bucket": "bittalk-708e5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:269248216764:android:aaec93a93b13e7a19f1ab9",
+        "android_client_info": {
+          "package_name": "com.joaoricardocoredutra.bittalk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "269248216764-nfou3dm4v2lve2ql41lki8m6fi5dr50l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBi1l29XEbdk0WkMQW1IWwidB1up0FrRko"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "269248216764-nfou3dm4v2lve2ql41lki8m6fi5dr50l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
