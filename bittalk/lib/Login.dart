@@ -45,7 +45,7 @@ class _LoginState extends State<Login> {
                         color: Color(0xff00f004),
                     ),
                     decoration: InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(32, 7, 32, 7),
+                      contentPadding: EdgeInsets.fromLTRB(7, 7, 7, 7),
                       hintText: "E-mail",
 
                       border: OutlineInputBorder(
@@ -65,7 +65,7 @@ class _LoginState extends State<Login> {
                       color: Color(0xff00f004),
                     ),
                     decoration: InputDecoration(
-                        contentPadding: EdgeInsets.fromLTRB(32, 7, 32, 7),
+                        contentPadding: EdgeInsets.fromLTRB(7, 7, 7, 7),
                         hintText: "Senha",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5),
@@ -91,7 +91,7 @@ class _LoginState extends State<Login> {
                         )
                     ),
                     color: Colors.black,
-                    padding: EdgeInsets.fromLTRB(32, 7, 32, 7),
+                    padding: EdgeInsets.fromLTRB(32, 11, 32, 11),
                     onPressed: (){
 
                     },
