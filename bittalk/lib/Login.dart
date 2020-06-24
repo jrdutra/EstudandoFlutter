@@ -1,3 +1,4 @@
+import 'package:bittalk/Cadastro.dart';
 import 'package:flutter/material.dart';
 
 class Login extends StatefulWidget {
@@ -47,10 +48,10 @@ class _LoginState extends State<Login> {
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.fromLTRB(7, 7, 7, 7),
                       hintText: "E-mail",
-
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5),
-                      )
+                      ),
+
                     ),
                   ),
 
@@ -58,7 +59,7 @@ class _LoginState extends State<Login> {
                 Padding(
                   padding: EdgeInsets.only(bottom: 8),
                   child: TextField(
-
+                    obscureText: true,
                     keyboardType: TextInputType.text,
                     style: TextStyle(
                       fontSize: 20,
@@ -106,7 +107,13 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                     onTap: (){
-
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return Cadastro();
+                              }
+                            ));
                     },
                   ),
                 )
