@@ -11,9 +11,21 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Image.asset(
-          "assets/images/logo.png",
-          height: 40,
+        iconTheme: IconThemeData(
+          color: Color(0xff00f004), //change your color here
+        ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              "Home",
+              style: TextStyle(color: Color(0xff00f004)),
+            ),
+            Image.asset(
+              "assets/images/icon.png",
+              height: 40,
+            ),
+          ],
         ),
         backgroundColor: Colors.black,
         bottom: PreferredSize(

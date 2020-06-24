@@ -1,4 +1,7 @@
+import 'package:bittalk/Home.dart';
+import 'package:bittalk/model/Usuario.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Cadastro extends StatefulWidget {
   @override
@@ -7,9 +10,9 @@ class Cadastro extends StatefulWidget {
 
 class _CadastroState extends State<Cadastro> {
   //Controladores
-  TextEditingController _controllerNome = TextEditingController();
-  TextEditingController _controllerEmail = TextEditingController();
-  TextEditingController _controllerSenha = TextEditingController();
+  TextEditingController _controllerNome = TextEditingController(text: "Joao");
+  TextEditingController _controllerEmail = TextEditingController(text: "jrdutra@hotmail.com");
+  TextEditingController _controllerSenha = TextEditingController(text: "jrdutra123");
   String _mensagemErro = "";
 
   _validarCampos() {
@@ -22,7 +25,12 @@ class _CadastroState extends State<Cadastro> {
           (email.contains(".com") || email.contains(".br"))) {
         if (senha.isNotEmpty && senha.length > 5 ) {
           _mensagemErro = "";
-          _cadastrarUsuario();
+
+          Usuario usuario = Usuario();
+          usuario.nome = nome;
+          usuario.email = email;
+          usuario.senha = senha;
+          _cadastrarUsuario(usuario);
         } else {
           setState(() {
             _mensagemErro = "Senha deve conter mais de 6 caracteres";
@@ -40,7 +48,29 @@ class _CadastroState extends State<Cadastro> {
     }
   }
 
-  _cadastrarUsuario(){
+  _cadastrarUsuario(Usuario usuario){
+
+    FirebaseAuth auth = FirebaseAuth.instance;
+
+    auth.createUserWithEmailAndPassword(
+        email: usuario.email.toString(),
+        password: usuario.senha
+    ).then((firebaseUser) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context){
+            return Home();
+          }
+        )
+      );
+    }).catchError((erro){
+      print("Erro vindo do Firebase: " + erro.toString());
+      print("Email: " + usuario.email);
+        setState(() {
+          _mensagemErro = "Verifique os campos e tente novamente.";
+        });
+    });
 
   }
 
