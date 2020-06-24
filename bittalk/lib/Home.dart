@@ -1,3 +1,5 @@
+import 'package:bittalk/telas/AbaContatos.dart';
+import 'package:bittalk/telas/AbaConversas.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -9,9 +11,17 @@ class Home extends StatefulWidget {
 
 
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
 
+  TabController _tabController;
   String _emailUsuarioLogado = "";
+
+  ColorFilter _greyscale = ColorFilter.matrix(<double>[
+    0.2126, 0.7152, 0.0722, 0, 0,
+    0.100, 0.400, 0.300, 0, 90,
+    0.2126, 0.7152, 0.0722, 0, 0,
+    0,      0,      0,      1, 0,
+  ]);
 
   Future _recuperarDadosUsuario() async {
     FirebaseAuth auth = FirebaseAuth.instance;
@@ -25,9 +35,13 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-
-    _recuperarDadosUsuario();
     super.initState();
+    _recuperarDadosUsuario();
+    _tabController = TabController(
+      length: 2,
+      vsync: this
+    );
+
   }
 
 
@@ -45,32 +59,41 @@ class _HomeState extends State<Home> {
               "bitTalk",
               style: TextStyle(color: Color(0xff00f004)),
             ),
-            Image.asset(
-              "assets/images/icon.png",
-              height: 40,
-            ),
+
+            ColorFiltered(
+              colorFilter: _greyscale,
+              child: Image.asset(
+                  "assets/images/icon.png",
+                  height: 40
+              ),
+            )
           ],
         ),
         backgroundColor: Colors.black,
-        bottom: PreferredSize(
-          child: Container(
-            color: Color(0xff00f004),
-            height: 2.0,
+        bottom: TabBar(
+          indicatorWeight: 4,
+          labelStyle: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Color(0xff00f004)
           ),
-          preferredSize: Size.fromHeight(2.0),
+          controller: _tabController,
+          indicatorColor: Color(0xff00f004),
+          labelColor: Color(0xff00f004),
+          tabs: <Widget>[
+            Tab(text: "Conversas",),
+            Tab(text: "Contatos",)
+          ],
+
         ),
       ),
-      body: Container(
-        color: Colors.black,
-        child: Center(
-          child: Text(
-            _emailUsuarioLogado,
-            style: TextStyle(
-                color: Color(0xff00f004)
-            ),
-          ),
-        ),
-      ),
+      body: TabBarView(
+        controller: _tabController,
+        children: <Widget>[
+          AbaConversas(),
+          AbaContatos()
+        ],
+      )
     );
   }
 }

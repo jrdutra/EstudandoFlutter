@@ -12,14 +12,17 @@ void main() {
   //.setData({"nome":"jamilton"});
 
   runApp(MaterialApp(
+    color: Colors.black,
     theme: ThemeData(
         fontFamily: 'Consolas',
         backgroundColor: Colors.black,
         primaryColor: Color(0xff00f004),
         accentColor: Colors.green,
         cursorColor: Color(0xff00f004),
-        hintColor: Color(0xff3A6133)
-
+        hintColor: Color(0xff3A6133),
+        highlightColor: Colors.black,
+        dialogBackgroundColor: Colors.black,
+        scaffoldBackgroundColor: Colors.black
     ),
     home: Login(),
     debugShowCheckedModeBanner: false,

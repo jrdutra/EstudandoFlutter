@@ -96,6 +96,7 @@ class _LoginState extends State<Login> {
     queryData = MediaQuery.of(context);
 
     return Scaffold(
+      backgroundColor: Colors.black,
       body: Container(
         decoration: BoxDecoration(color: Colors.black),
         padding: EdgeInsets.all(16),
