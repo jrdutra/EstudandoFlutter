@@ -2,6 +2,7 @@ import 'package:bittalk/Home.dart';
 import 'package:bittalk/model/Usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Cadastro extends StatefulWidget {
   @override
@@ -56,7 +57,14 @@ class _CadastroState extends State<Cadastro> {
         email: usuario.email.toString(),
         password: usuario.senha
     ).then((firebaseUser) {
-      Navigator.push(
+      
+      Firestore db = Firestore.instance;
+      db.collection("usuarios")
+      .document(firebaseUser.user.uid)
+      .setData(usuario.toMap());
+      
+      
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context){

@@ -47,7 +47,7 @@ class _LoginState extends State<Login> {
         email: usuario.email,
         password: usuario.senha
     ).then((firebaseUser){
-      Navigator.push(
+      Navigator.pushReplacement(
           context,
           MaterialPageRoute(
               builder: (context){
@@ -67,11 +67,11 @@ class _LoginState extends State<Login> {
   Future _verificaUsuarioLogado() async {
 
     FirebaseAuth auth = FirebaseAuth.instance;
-
+    //auth.signOut();
     FirebaseUser usuarioLogado = await auth.currentUser();
 
     if(usuarioLogado != null){
-      Navigator.push(
+      Navigator.pushReplacement(
           context,
           MaterialPageRoute(
               builder: (context){
