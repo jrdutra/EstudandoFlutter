@@ -37,6 +37,7 @@ flutter:
     - assets/images/logo.png
     - assets/images/icon.png
     - assets/images/user-icon.png
+    - assets/images/menu-icon.png
     - assets/pictures/perfil1.jpg
     - assets/pictures/perfil2.jpg
     - assets/pictures/perfil3.jpg

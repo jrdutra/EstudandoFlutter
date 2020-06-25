@@ -1,3 +1,4 @@
+import 'package:bittalk/meusWidgets/GreenCircleAvatar.dart';
 import 'package:bittalk/model/Conversa.dart';
 import 'package:flutter/material.dart';
 
@@ -7,14 +8,6 @@ class AbaContatos extends StatefulWidget {
 }
 
 class _AbaContatosState extends State<AbaContatos> {
-
-  ColorFilter _greyscale = ColorFilter.matrix(<double>[
-    0.2126, 0.7152, 0.0722, 0, 0,
-    0.100, 0.400, 0.300, 0, 90,
-    0.2126, 0.7152, 0.0722, 0, 0,
-    0,      0,      0,      1, 0,
-  ]);
-
 
   List<Conversa> listaConversas = [
     Conversa(
@@ -54,13 +47,10 @@ class _AbaContatosState extends State<AbaContatos> {
 
         return ListTile(
           contentPadding: EdgeInsets.fromLTRB(14, 1, 14, 1),
-          leading: ColorFiltered(
-              colorFilter: _greyscale,
-              child: CircleAvatar(
-                radius: 25,
-                backgroundColor: Colors.green,
-                backgroundImage: NetworkImage(conversa.caminhoFoto),
-              )
+
+          leading: GreenCircleAvatar(
+              raio: 25,
+              caminho: conversa.caminhoFoto,
           ),
           title: Text(
             conversa.nome,

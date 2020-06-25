@@ -1,3 +1,4 @@
+import 'package:bittalk/meusWidgets/GreenCircleAvatar.dart';
 import 'package:bittalk/model/Conversa.dart';
 import 'package:flutter/material.dart';
 
@@ -54,13 +55,9 @@ class _AbaConversasState extends State<AbaConversas> {
 
           return ListTile(
             contentPadding: EdgeInsets.fromLTRB(14, 1, 14, 1),
-            leading: ColorFiltered(
-              colorFilter: _greyscale,
-              child: CircleAvatar(
-                radius: 25,
-                backgroundColor: Colors.green,
-                backgroundImage: NetworkImage(conversa.caminhoFoto),
-              )
+            leading: GreenCircleAvatar(
+              raio: 23,
+              caminho: conversa.caminhoFoto,
             ),
             title: Text(
               conversa.nome,
