@@ -16,13 +16,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
   TabController _tabController;
   String _emailUsuarioLogado = "";
 
-  ColorFilter _greyscale = ColorFilter.matrix(<double>[
-    0.2126, 0.7152, 0.0722, 0, 0,
-    0.100, 0.400, 0.300, 0, 90,
-    0.2126, 0.7152, 0.0722, 0, 0,
-    0,      0,      0,      1, 0,
-  ]);
-
   Future _recuperarDadosUsuario() async {
     FirebaseAuth auth = FirebaseAuth.instance;
     FirebaseUser usuarioLogado = await auth.currentUser();
@@ -60,13 +53,10 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
               style: TextStyle(color: Color(0xff00f004)),
             ),
 
-            ColorFiltered(
-              colorFilter: _greyscale,
-              child: Image.asset(
-                  "assets/images/icon.png",
-                  height: 40
-              ),
-            )
+            Image.asset(
+                "assets/images/icon.png",
+                height: 40
+            ),
           ],
         ),
         backgroundColor: Colors.black,

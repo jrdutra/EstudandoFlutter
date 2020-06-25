@@ -11,9 +11,9 @@ class Cadastro extends StatefulWidget {
 
 class _CadastroState extends State<Cadastro> {
   //Controladores
-  TextEditingController _controllerNome = TextEditingController(text: "Joao");
-  TextEditingController _controllerEmail = TextEditingController(text: "jrdutra@hotmail.com");
-  TextEditingController _controllerSenha = TextEditingController(text: "jrdutra123");
+  TextEditingController _controllerNome = TextEditingController();
+  TextEditingController _controllerEmail = TextEditingController();
+  TextEditingController _controllerSenha = TextEditingController();
   String _mensagemErro = "";
 
   _validarCampos() {
