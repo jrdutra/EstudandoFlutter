@@ -1,4 +1,5 @@
 import 'package:bittalk/Home.dart';
+import 'package:bittalk/meusWidgets/GreenText.dart';
 import 'package:bittalk/model/Usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -87,10 +88,7 @@ class _CadastroState extends State<Cadastro> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text(
-              "Cadastro",
-              style: TextStyle(color: Color(0xff00f004)),
-            ),
+            GreenText("Cadastro"),
             Image.asset(
               "assets/images/icon.png",
               height: 40,

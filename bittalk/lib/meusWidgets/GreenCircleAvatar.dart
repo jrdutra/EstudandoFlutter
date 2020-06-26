@@ -30,7 +30,7 @@ class _GreenCircleAvatar extends State<GreenCircleAvatar> {
         child: CircleAvatar(
           radius: widget.raio,
           backgroundColor: Colors.green,
-          backgroundImage: NetworkImage(widget.caminho),
+          backgroundImage: widget.caminho != null? NetworkImage(widget.caminho): null,
         )
     );
   }

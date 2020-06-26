@@ -1,4 +1,5 @@
 import 'package:bittalk/Cadastro.dart';
+import 'package:bittalk/Configuracoes.dart';
 import 'package:bittalk/Home.dart';
 import 'package:bittalk/Login.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,10 @@ class RouteGenerator {
       case "/home":
         return MaterialPageRoute(builder: (_) {
           return Home();
+        });
+      case "/configuracoes":
+        return MaterialPageRoute(builder: (_) {
+          return Configuracoes();
         });
       default:
         _erroRota();

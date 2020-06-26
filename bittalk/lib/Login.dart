@@ -122,7 +122,6 @@ class _LoginState extends State<Login> {
                 Padding(
                   padding: EdgeInsets.only(bottom: 8),
                   child: TextField(
-
                     controller: _controllerSenha,
                     obscureText: true,
                     keyboardType: TextInputType.text,

@@ -1,4 +1,5 @@
 import 'package:bittalk/Login.dart';
+import 'package:bittalk/meusWidgets/GreenText.dart';
 import 'package:bittalk/telas/AbaContatos.dart';
 import 'package:bittalk/telas/AbaConversas.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +10,6 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 
 }
-
-
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
 
@@ -44,20 +43,19 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
   _deslogarUsuario() async{
     FirebaseAuth auth = FirebaseAuth.instance;
     await auth.signOut();
-    Navigator.pushReplacementNamed(context, "/home");
+    Navigator.pushReplacementNamed(context, "/login");
   }
 
   _escolhaMenuItem(String itemEscolhido){
     switch ( itemEscolhido ){
       case "Configurações":
-        print("Configurações");
+        Navigator.pushNamed(context, "/configuracoes");
         break;
       case "Deslogar":
         _deslogarUsuario();
         break;
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -66,10 +64,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
         iconTheme: IconThemeData(
           color: Color(0xff00f004), //change your color here
         ),
-        title: Text(
-          "bitTalk",
-          style: TextStyle(color: Color(0xff00f004)),
-        ),
+        title: GreenText("bitTalk"),
         backgroundColor: Colors.black,
         bottom: TabBar(
           indicatorWeight: 4,
@@ -101,12 +96,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
                   return _itensMenu.map((String item){
                       return PopupMenuItem<String>(
                         value: item,
-                        child: Text(
-                            item,
-                          style: TextStyle(
-                            color: Color(0xff00f004)
-                          ),
-                        ),
+                        child: GreenText(item),
                       );
                   }).toList();
             },
