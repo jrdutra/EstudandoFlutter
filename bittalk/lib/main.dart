@@ -1,5 +1,6 @@
 import 'package:bittalk/Home.dart';
 import 'package:bittalk/Login.dart';
+import 'package:bittalk/RouteGenerator.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -24,6 +25,8 @@ void main() {
         dialogBackgroundColor: Colors.black,
         scaffoldBackgroundColor: Colors.black
     ),
+    initialRoute: "/",
+    onGenerateRoute: RouteGenerator.generateRoute,
     home: Login(),
     debugShowCheckedModeBanner: false,
   ));

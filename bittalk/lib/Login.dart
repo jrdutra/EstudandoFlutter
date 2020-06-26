@@ -47,18 +47,10 @@ class _LoginState extends State<Login> {
         email: usuario.email,
         password: usuario.senha
     ).then((firebaseUser){
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context){
-                return Home();
-              }
-          )
-      );
+      Navigator.pushReplacementNamed(context, "/home");
     }).catchError((erro){
       print("Erro de autenticação: " + erro.toString());
       setState(() {
-
         _mensagemErro = "Erro ao autenticar o usuário!";
       });
     });
@@ -71,14 +63,7 @@ class _LoginState extends State<Login> {
     FirebaseUser usuarioLogado = await auth.currentUser();
 
     if(usuarioLogado != null){
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context){
-                return Home();
-              }
-          )
-      );
+      Navigator.pushReplacementNamed(context, "/home");
     }
 
   }

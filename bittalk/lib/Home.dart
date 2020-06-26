@@ -44,14 +44,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
   _deslogarUsuario() async{
     FirebaseAuth auth = FirebaseAuth.instance;
     await auth.signOut();
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context){
-              return Login();
-            }
-        )
-    );
+    Navigator.pushReplacementNamed(context, "/home");
   }
 
   _escolhaMenuItem(String itemEscolhido){

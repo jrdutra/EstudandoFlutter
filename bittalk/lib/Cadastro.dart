@@ -57,21 +57,11 @@ class _CadastroState extends State<Cadastro> {
         email: usuario.email.toString(),
         password: usuario.senha
     ).then((firebaseUser) {
-      
       Firestore db = Firestore.instance;
       db.collection("usuarios")
       .document(firebaseUser.user.uid)
       .setData(usuario.toMap());
-      
-      
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context){
-            return Home();
-          }
-        )
-      );
+      Navigator.pushNamedAndRemoveUntil(context, "/home", (_)=>false);
     }).catchError((erro){
       print("Erro vindo do Firebase: " + erro.toString());
       print("Email: " + usuario.email);
@@ -79,6 +69,8 @@ class _CadastroState extends State<Cadastro> {
           _mensagemErro = "Verifique os campos e tente novamente.";
         });
     });
+
+
 
   }
 
