@@ -90,7 +90,10 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
                   width: 3
               )
             ),
-            icon: Image.asset("assets/images/menu-icon.png"),
+            icon: Image.asset(
+                "assets/images/menu-icon.png",
+              width: 29,
+            ),
             onSelected: _escolhaMenuItem,
             itemBuilder: (context){
                   return _itensMenu.map((String item){

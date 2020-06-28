@@ -128,8 +128,6 @@ class _ConfiguracoesState extends State<Configuracoes> {
           _urlImagemRecuperada = dados["urlImagem"];
         });
       }
-
-
   }
 
   @override

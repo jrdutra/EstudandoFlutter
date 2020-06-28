@@ -2,10 +2,14 @@ import 'package:bittalk/Cadastro.dart';
 import 'package:bittalk/Configuracoes.dart';
 import 'package:bittalk/Home.dart';
 import 'package:bittalk/Login.dart';
+import 'package:bittalk/Mensagens.dart';
 import 'package:flutter/material.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
+
+    final args = settings.arguments;
+
     switch (settings.name) {
       case "/":
         return MaterialPageRoute(builder: (_) {
@@ -26,6 +30,10 @@ class RouteGenerator {
       case "/configuracoes":
         return MaterialPageRoute(builder: (_) {
           return Configuracoes();
+        });
+      case "/mensagens":
+        return MaterialPageRoute(builder: (_) {
+          return Mensagens(args);
         });
       default:
         _erroRota();
