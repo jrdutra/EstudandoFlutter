@@ -64,7 +64,10 @@ class _AbaContatosState extends State<AbaContatos> {
               child: Column(
                 children: <Widget>[
                   GreenText("Carregando Contatos"),
-                  CircularProgressIndicator()
+                  CircularProgressIndicator(
+                      backgroundColor: Color(0xff00f004),
+                      strokeWidth: 2.0
+                  )
                 ],
               ),
             );

@@ -4,6 +4,8 @@ class Mensagem {
   String _mensagem;
   String _urlImagem;
   String _tipo;
+  DateTime _dataHora;
+
 
   Mensagem();
 
@@ -13,8 +15,16 @@ class Mensagem {
       "mensagem": this.mensagem,
       "urlImagem": this.urlImagem,
       "tipo": this.tipo,
+      "dataHora": this._dataHora
     };
     return map;
+  }
+
+
+  DateTime get dataHora => _dataHora;
+
+  set dataHora(DateTime value) {
+    _dataHora = value;
   }
 
   String get tipo => _tipo;
