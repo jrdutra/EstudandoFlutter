@@ -1,6 +1,9 @@
 import 'package:bittalk/meusWidgets/GreenText.dart';
+import 'package:bittalk/model/Mensagem.dart';
 import 'package:bittalk/model/Usuario.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Mensagens extends StatefulWidget {
 
@@ -15,8 +18,35 @@ class Mensagens extends StatefulWidget {
 class _MensagensState extends State<Mensagens> {
 
   TextEditingController _controlerMensagem = TextEditingController();
+  String _idUsuarioLogado = "";
+  String _idUsuarioDestinatario = "";
+
+  List<String> listaMensagens = [
+    "Mensagem 1",
+    "Mensagem 2"
+  ];
 
   _enviarMensagem(){
+      String textoMensagem = _controlerMensagem.text;
+      if(!textoMensagem.isEmpty){
+          Mensagem mensagem = Mensagem();
+          mensagem.idUsuario = _idUsuarioLogado;
+          mensagem.mensagem = textoMensagem;
+          mensagem.urlImagem = "";
+          mensagem.tipo = "texto";
+          _salvarMensagem(_idUsuarioLogado, _idUsuarioDestinatario, mensagem);
+      }
+  }
+
+  _salvarMensagem(String idRemetende, String idDestinatario, Mensagem msg) async{
+    Firestore db = Firestore.instance;
+
+     await db.collection("mensagens")
+    .document(idRemetende)
+    .collection(idDestinatario)
+    .add(msg.toMap());
+
+     _controlerMensagem.clear();
 
   }
 
@@ -24,13 +54,22 @@ class _MensagensState extends State<Mensagens> {
 
   }
 
+  _recuperarDadosUsuario() async{
+    FirebaseAuth auth = FirebaseAuth.instance;
+    FirebaseUser usuarioLogado = await auth.currentUser();
+    _idUsuarioLogado = usuarioLogado.uid;
+    _idUsuarioDestinatario = widget.contato.idUsuario;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _recuperarDadosUsuario();
+
+  }
+
   @override
   Widget build(BuildContext context) {
-
-    List<String> listaMensagens = [
-      "Mensagem 1",
-      "Mensagem 2"
-    ];
 
     var caixaMensagem = Container(
       padding: EdgeInsets.all(0),
@@ -79,12 +118,13 @@ class _MensagensState extends State<Mensagens> {
         itemCount: listaMensagens.length,
         itemBuilder: (context, indice){
 
-            Alignment alinhamento = Alignment.centerRight;
-            TextStyle style = TextStyle(
-              color: Colors.green,
-            );
+            bool isContact = false;
+            Alignment alinhamento = Alignment.centerLeft;
+            TextStyle style = TextStyle(color: Color(0xff00f004));
             if(indice % 2 == 0){
-
+              style = TextStyle(color: Colors.green);
+              alinhamento = Alignment.centerLeft;
+              isContact = true;
             }
 
             return Align(
@@ -97,7 +137,9 @@ class _MensagensState extends State<Mensagens> {
                     borderRadius: BorderRadius.all(Radius.circular(8))
                   ),
                   child: GreenText(
-                      listaMensagens[indice],
+                       isContact
+                           ?"\$"+widget.contato.nome+": "+listaMensagens[indice]
+                           :"\$Eu: "+listaMensagens[indice],
                       style: style,
                   ),
                 ),
@@ -110,7 +152,7 @@ class _MensagensState extends State<Mensagens> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "\$ "+widget.contato.nome,
+          "\$"+widget.contato.nome,
           style: TextStyle(color: Color(0xff00f004)),
         ),
         backgroundColor: Colors.black,
