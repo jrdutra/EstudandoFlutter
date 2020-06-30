@@ -1,9 +1,13 @@
 import 'package:bittalk/meusWidgets/GreenText.dart';
+import 'package:bittalk/model/Conversa.dart';
 import 'package:bittalk/model/Mensagem.dart';
 import 'package:bittalk/model/Usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 
 class Mensagens extends StatefulWidget {
   Usuario contato;
@@ -15,12 +19,14 @@ class Mensagens extends StatefulWidget {
 }
 
 class _MensagensState extends State<Mensagens> {
+
   TextEditingController _controlerMensagem = TextEditingController();
   String _idUsuarioLogado = "";
   String _idUsuarioDestinatario = "";
   Firestore db = Firestore.instance;
+  File _imagem;
+  bool _subindoImagem = false;
 
-  List<String> listaMensagens = ["Mensagem 1", "Mensagem 2"];
 
   _enviarMensagem() {
     String textoMensagem = _controlerMensagem.text;
@@ -31,13 +37,38 @@ class _MensagensState extends State<Mensagens> {
       mensagem.urlImagem = "";
       mensagem.tipo = "texto";
       mensagem.dataHora = DateTime.now();
+
       _salvarMensagem(_idUsuarioLogado, _idUsuarioDestinatario, mensagem);
       _salvarMensagem(_idUsuarioDestinatario, _idUsuarioLogado, mensagem);
+
+      //Salvar conversa
+      _salvarConversa(mensagem);
+
     }
   }
 
-  _salvarMensagem(
-      String idRemetende, String idDestinatario, Mensagem msg) async {
+  _salvarConversa(Mensagem msg){
+      Conversa cRemetente = Conversa();
+      cRemetente.idRemetente = _idUsuarioLogado;
+      cRemetente.idDestinatario = _idUsuarioDestinatario;
+      cRemetente.mensagem = msg.mensagem;
+      cRemetente.nome = widget.contato.nome;
+      cRemetente.caminhoFoto = widget.contato.urlImagem;
+      cRemetente.tipoMensagem = msg.tipo;
+      cRemetente.salvar();
+
+      Conversa cDestinatario = Conversa();
+      cDestinatario.idRemetente = _idUsuarioDestinatario;
+      cDestinatario.idDestinatario = _idUsuarioLogado;
+      cDestinatario.mensagem = msg.mensagem;
+      cDestinatario.nome = widget.contato.nome;
+      cDestinatario.caminhoFoto = widget.contato.urlImagem;
+      cDestinatario.tipoMensagem = msg.tipo;
+      cDestinatario.salvar();
+
+  }
+
+  _salvarMensagem(String idRemetende, String idDestinatario, Mensagem msg) async {
     await db
         .collection("mensagens")
         .document(idRemetende)
@@ -46,8 +77,6 @@ class _MensagensState extends State<Mensagens> {
 
     _controlerMensagem.clear();
   }
-
-  enviarFoto() {}
 
   _recuperarDadosUsuario() async {
     FirebaseAuth auth = FirebaseAuth.instance;
@@ -81,14 +110,15 @@ class _MensagensState extends State<Mensagens> {
                 ),
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.fromLTRB(7, 7, 7, 7),
-                    hintText: "Digite uma mensagem...",
+                    hintText: "Mensagem",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),
-                    prefixIcon: IconButton(
-                      icon: Icon(Icons.camera),
-                      onPressed: enviarFoto,
-                    )),
+                    //prefixIcon: IconButton(
+                    //  icon: Icon(Icons.camera),
+                    //  onPressed: enviarFoto,
+                    //)
+                ),
               ),
             ),
           ),
@@ -133,6 +163,7 @@ class _MensagensState extends State<Mensagens> {
                 child: GreenText("Erro ao carregar dados"),
               );
             } else {
+              print("Itens: " + querySnapshot.documents.toList().toString());
               return Expanded(
                   child: ListView.builder(
                 itemCount: querySnapshot.documents.length,
@@ -140,6 +171,9 @@ class _MensagensState extends State<Mensagens> {
 
                   List<DocumentSnapshot> mensagens = querySnapshot.documents.toList();
                   DocumentSnapshot item = mensagens[indice];
+
+
+
                   bool isContact = false;
                   Alignment alinhamento = Alignment.centerLeft;
                   TextStyle style = TextStyle(color: Color(0xff00f004));
@@ -158,12 +192,11 @@ class _MensagensState extends State<Mensagens> {
                         decoration: BoxDecoration(
                             color: Colors.black,
                             borderRadius: BorderRadius.all(Radius.circular(8))),
-                        child: GreenText(
-                          isContact
-                              ? "\$" + widget.contato.nome + ": " + item["mensagem"]
-                              : "\$Eu: " + item["mensagem"],
-                          style: style,
-                        ),
+                        child: GreenText(isContact? "\$" + widget.contato.nome + ": " + item["mensagem"] : "\$Eu: " + item["mensagem"],style: style,)
+                        //item["mensagem"] == "texto"
+                         //   ?GreenText(isContact? "\$" + widget.contato.nome + ": " + item["mensagem"] : "\$Eu: " + item["mensagem"],style: style,)
+                         //    :Container(child: Text("Imagem"),)
+                        //Image.network(item["urlImagem"],),
                       ),
                     ),
                   );
@@ -176,38 +209,7 @@ class _MensagensState extends State<Mensagens> {
       },
     );
 
-    var listView = Expanded(
-        child: ListView.builder(
-      itemCount: listaMensagens.length,
-      itemBuilder: (context, indice) {
-        bool isContact = false;
-        Alignment alinhamento = Alignment.centerLeft;
-        TextStyle style = TextStyle(color: Color(0xff00f004));
-        if (indice % 2 == 0) {
-          style = TextStyle(color: Colors.green);
-          alinhamento = Alignment.centerLeft;
-          isContact = true;
-        }
 
-        return Align(
-          alignment: alinhamento,
-          child: Padding(
-            padding: EdgeInsets.all(0),
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.all(Radius.circular(8))),
-              child: GreenText(
-                isContact
-                    ? "\$" + widget.contato.nome + ": " + listaMensagens[indice]
-                    : "\$Eu: " + listaMensagens[indice],
-                style: style,
-              ),
-            ),
-          ),
-        );
-      },
-    ));
 
     return Scaffold(
       appBar: AppBar(
