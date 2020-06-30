@@ -63,7 +63,10 @@ class _AbaContatosState extends State<AbaContatos> {
             return Center(
               child: Column(
                 children: <Widget>[
-                  GreenText("Carregando Contatos"),
+                  Padding(
+                    padding: EdgeInsets.only(top: 20),
+                    child: GreenText("Loading users")
+                  ),
                   Padding(
                     padding: EdgeInsets.all(20),
                     child: CircularProgressIndicator(

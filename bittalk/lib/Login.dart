@@ -30,12 +30,12 @@ class _LoginState extends State<Login> {
         _logarUsuario(usuario);
       } else {
         setState(() {
-          _mensagemErro = "Preencha a senha!";
+          _mensagemErro = "Fill in the password!";
         });
       }
     } else {
       setState(() {
-        _mensagemErro = "E-mail inválido!";
+        _mensagemErro = "Invalid email!";
       });
     }
   }
@@ -49,9 +49,8 @@ class _LoginState extends State<Login> {
     ).then((firebaseUser){
       Navigator.pushReplacementNamed(context, "/home");
     }).catchError((erro){
-      print("Erro de autenticação: " + erro.toString());
       setState(() {
-        _mensagemErro = "Erro ao autenticar o usuário!";
+        _mensagemErro = "Error authenticating the user!";
       });
     });
   }
@@ -131,7 +130,7 @@ class _LoginState extends State<Login> {
                     ),
                     decoration: InputDecoration(
                         contentPadding: EdgeInsets.fromLTRB(7, 7, 7, 7),
-                        hintText: "Senha",
+                        hintText: "Password",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5),
                         )),
@@ -141,7 +140,7 @@ class _LoginState extends State<Login> {
                   padding: EdgeInsets.only(top: 16, bottom: 10),
                   child: RaisedButton(
                     child: Text(
-                      "Entrar",
+                      "Login",
                       style: TextStyle(fontSize: 20, color: Color(0xff00f004)),
                     ),
                     shape: RoundedRectangleBorder(
@@ -159,7 +158,7 @@ class _LoginState extends State<Login> {
                 Center(
                   child: GestureDetector(
                     child: Text(
-                      "Não tem conta? Cadastre-se!",
+                      "Don't have an account? Sign up here!",
                       style: TextStyle(color: Colors.green),
                     ),
                     onTap: () {

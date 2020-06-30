@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:bittalk/meusWidgets/CommandText.dart';
 import 'package:bittalk/meusWidgets/GreenText.dart';
@@ -29,6 +30,7 @@ class _MensagensState extends State<Mensagens> {
   String _idUsuarioLogado = "";
   String _idUsuarioDestinatario = "";
   Firestore db = Firestore.instance;
+  double alturaBase;
 
 
   _enviarMensagem() {
@@ -104,14 +106,42 @@ class _MensagensState extends State<Mensagens> {
     });
   }
 
+  double _getSmartBannerHeight(BuildContext context) {
+    MediaQueryData mediaScreen = MediaQuery.of(context);
+    double dpHeight = mediaScreen.orientation == Orientation.portrait
+        ? mediaScreen.size.height
+        : mediaScreen.size.width;
+    if (dpHeight <= 400.0) {
+      return 39.0;
+    }
+    if (dpHeight > 720.0) {
+      return 99.0;
+    }
+    return 59.0;
+  }
+
+  bool _keyboardIsVisible() {
+    return !(MediaQuery.of(context).viewInsets.bottom == 0.0);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+
   @override
   void initState() {
     super.initState();
     _recuperarDadosUsuario();
+
   }
 
   @override
   Widget build(BuildContext context) {
+
+    alturaBase = _getSmartBannerHeight(context);
+
     var caixaMensagem = Container(
       padding: EdgeInsets.all(0),
       child: Row(
@@ -246,7 +276,14 @@ class _MensagensState extends State<Mensagens> {
         width: MediaQuery.of(context).size.width,
         child: SafeArea(
           child: Container(
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.fromLTRB(
+                16,
+                16,
+                16,
+                _keyboardIsVisible()
+                    ? 9
+                    :alturaBase
+            ),
             child: Column(
               children: [stream, caixaMensagem],
             ),

@@ -72,7 +72,7 @@ class _AbaConversasState extends State<AbaConversas> {
             return Center(
               child: Column(
                 children: [
-                  GreenText("Carregando conversas"),
+                  GreenText("Loading conversations"),
                   Padding(
                     padding: EdgeInsets.all(20),
                     child: CircularProgressIndicator(
@@ -87,12 +87,12 @@ class _AbaConversasState extends State<AbaConversas> {
               case ConnectionState.active:
               case ConnectionState.done:
                   if (snapshot.hasError) {
-                    return GreenText("Erro ao carregar conversas");
+                    return GreenText("Error loading conversations");
                   } else {
                     QuerySnapshot querySnapshot = snapshot.data;
                       if(querySnapshot.documents.length == 0){
                           return Center(
-                            child: GreenText("Você não tem nehuma mensagem."),
+                            child: GreenText("You have no message."),
                           );
                       }
 

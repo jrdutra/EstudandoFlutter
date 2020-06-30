@@ -35,17 +35,17 @@ class _CadastroState extends State<Cadastro> {
           _cadastrarUsuario(usuario);
         } else {
           setState(() {
-            _mensagemErro = "Senha deve conter mais de 6 caracteres";
+            _mensagemErro = "Password must contain more than 6 characters";
           });
         }
       } else {
         setState(() {
-          _mensagemErro = "E-mail inválido!";
+          _mensagemErro = "Invalid email!";
         });
       }
     } else {
       setState(() {
-        _mensagemErro = "O nome precisa ter mais que 2 caracteres!";
+        _mensagemErro = "The name must be longer than 2 characters!";
       });
     }
   }
@@ -64,10 +64,8 @@ class _CadastroState extends State<Cadastro> {
       .setData(usuario.toMap());
       Navigator.pushNamedAndRemoveUntil(context, "/home", (_)=>false);
     }).catchError((erro){
-      print("Erro vindo do Firebase: " + erro.toString());
-      print("Email: " + usuario.email);
         setState(() {
-          _mensagemErro = "Verifique os campos e tente novamente.";
+          _mensagemErro = "Check the fields and try again.";
         });
     });
 
@@ -88,7 +86,7 @@ class _CadastroState extends State<Cadastro> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            GreenText("Cadastro"),
+            GreenText("Sigup"),
             Image.asset(
               "assets/images/icon.png",
               height: 40,
@@ -134,7 +132,7 @@ class _CadastroState extends State<Cadastro> {
                     ),
                     decoration: InputDecoration(
                         contentPadding: EdgeInsets.fromLTRB(7, 7, 7, 7),
-                        hintText: "Nome",
+                        hintText: "Name",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5),
                         )),
@@ -169,7 +167,7 @@ class _CadastroState extends State<Cadastro> {
                     ),
                     decoration: InputDecoration(
                         contentPadding: EdgeInsets.fromLTRB(7, 7, 7, 7),
-                        hintText: "Senha",
+                        hintText: "Password",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5),
                         )),
@@ -179,7 +177,7 @@ class _CadastroState extends State<Cadastro> {
                   padding: EdgeInsets.only(top: 16, bottom: 10),
                   child: RaisedButton(
                     child: Text(
-                      "Cadastrar",
+                      "Register",
                       style: TextStyle(fontSize: 20, color: Color(0xff00f004)),
                     ),
                     shape: RoundedRectangleBorder(

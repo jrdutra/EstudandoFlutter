@@ -4,6 +4,7 @@ import 'package:bittalk/telas/AbaContatos.dart';
 import 'package:bittalk/telas/AbaConversas.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -15,9 +16,53 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
 
   TabController _tabController;
   List<String> _itensMenu = [
-    "Configurações", "Deslogar"
+    "Settings", "Logout"
   ];
   String _emailUsuarioLogado = "";
+
+  //------
+  //ADMOB
+  //-----
+  static const MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
+    keywords: <String>['flutterio', 'beautiful apps'],
+    contentUrl: 'https://flutter.io',
+    childDirected: false,
+    testDevices: <String>[], // Android emulators are considered test devices
+  );
+
+  BannerAd myBanner = BannerAd(
+    adUnitId: 'ca-app-pub-5851652075835518/7918503067',
+    size: AdSize.smartBanner,
+    targetingInfo: targetingInfo,
+    listener: (MobileAdEvent event) {
+      print("BannerAd event is $event");
+    },
+  );
+
+  InterstitialAd myInterstitial = InterstitialAd(
+    adUnitId: 'ca-app-pub-5851652075835518/1132521299',
+    targetingInfo: targetingInfo,
+    listener: (MobileAdEvent event) {
+      print("InterstitialAd event is $event");
+    },
+  );
+
+
+  BannerAd _bannerAd;
+
+  _iniciaIntersticial(){
+    myInterstitial
+      ..load()
+      ..show(
+          anchorType: AnchorType.bottom,
+          anchorOffset: 0.0,
+          horizontalCenterOffset: 0.0
+      );
+  }
+
+  //--------
+  //FIM ADMOB
+  //--------
 
   Future _recuperarDadosUsuario() async {
     FirebaseAuth auth = FirebaseAuth.instance;
@@ -39,6 +84,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
 
   @override
   void initState() {
+    //ADMOB
+    FirebaseAdMob.instance.initialize(
+        appId: 'ca-app-pub-5851652075835518~3042059836'
+    );
+    _bannerAd = myBanner..load()..show(anchorType: AnchorType.bottom);
+    _iniciaIntersticial();
+    //FIM ADDMOB
     super.initState();
     _verificaUsuarioLogado();
     _recuperarDadosUsuario();
@@ -46,7 +98,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
       length: 2,
       vsync: this
     );
+  }
 
+  @override
+  void dispose(){
+    _bannerAd.dispose();
+    myInterstitial.dispose();
+    super.dispose();
   }
 
   _deslogarUsuario() async{
@@ -57,10 +115,10 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
 
   _escolhaMenuItem(String itemEscolhido){
     switch ( itemEscolhido ){
-      case "Configurações":
+      case "Settings":
         Navigator.pushNamed(context, "/configuracoes");
         break;
-      case "Deslogar":
+      case "Logout":
         _deslogarUsuario();
         break;
     }
@@ -86,10 +144,11 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
           indicatorColor: Color(0xff00f004),
           labelColor: Color(0xff00f004),
           tabs: <Widget>[
-            Tab(text: "Conversas",),
-            Tab(text: "Contatos",)
+            Tab(text: "Chat",),
+            Tab(text: "Users",)
           ],
         ),
+
         actions: <Widget>[
           PopupMenuButton<String>(
             color: Colors.black,
@@ -121,7 +180,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
           AbaConversas(),
           AbaContatos()
         ],
-      )
+      ),
     );
   }
 }

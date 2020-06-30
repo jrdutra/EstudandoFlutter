@@ -142,7 +142,7 @@ class _ConfiguracoesState extends State<Configuracoes> {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            "Configurações",
+            "Settings",
             style: TextStyle(color: Color(0xff00f004)),
           ),
           backgroundColor: Colors.black,
@@ -182,7 +182,7 @@ class _ConfiguracoesState extends State<Configuracoes> {
                         },
                       ),
                       FlatButton(
-                        child: GreenText("Galeria"),
+                        child: GreenText("Gallery"),
                         onPressed: (){
                           _recuperarImagem("galeria");
                         },
@@ -201,7 +201,7 @@ class _ConfiguracoesState extends State<Configuracoes> {
                       ),
                       decoration: InputDecoration(
                           contentPadding: EdgeInsets.fromLTRB(7, 7, 7, 7),
-                          hintText: "Nome",
+                          hintText: "Name",
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5),
                           )),
@@ -214,7 +214,7 @@ class _ConfiguracoesState extends State<Configuracoes> {
                     padding: EdgeInsets.only(top: 16, bottom: 10),
                     child: RaisedButton(
                       child: Text(
-                        "Salvar",
+                        "Save",
                         style: TextStyle(fontSize: 20, color: Color(0xff00f004)),
                       ),
                       shape: RoundedRectangleBorder(
