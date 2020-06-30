@@ -159,10 +159,13 @@ class _ConfiguracoesState extends State<Configuracoes> {
                    Container(
                      padding: EdgeInsets.all(16),
                      child: _subindoImagem
-                         ? CircularProgressIndicator(
-                              backgroundColor: Color(0xff00f004),
-                              strokeWidth: 2.0
-                            )
+                         ? Padding(
+                               padding: EdgeInsets.all(20),
+                               child: CircularProgressIndicator(
+                                   backgroundColor: Color(0xff00f004),
+                                   strokeWidth: 2.0
+                               ),
+                             )
                          : Container()
                    ),
                    GreenCircleAvatar(

@@ -15,7 +15,7 @@ class Mensagem {
       "mensagem": this.mensagem,
       "urlImagem": this.urlImagem,
       "tipo": this.tipo,
-      "dataHora": this._dataHora
+      "dataHora": this.dataHora
     };
     return map;
   }

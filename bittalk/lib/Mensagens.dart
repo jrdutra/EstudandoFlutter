@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:bittalk/meusWidgets/CommandText.dart';
 import 'package:bittalk/meusWidgets/GreenText.dart';
 import 'package:bittalk/model/Conversa.dart';
 import 'package:bittalk/model/Mensagem.dart';
@@ -21,11 +24,11 @@ class Mensagens extends StatefulWidget {
 class _MensagensState extends State<Mensagens> {
 
   TextEditingController _controlerMensagem = TextEditingController();
+  final _controller = StreamController<QuerySnapshot>.broadcast();
+  ScrollController _scrollController = ScrollController();
   String _idUsuarioLogado = "";
   String _idUsuarioDestinatario = "";
   Firestore db = Firestore.instance;
-  File _imagem;
-  bool _subindoImagem = false;
 
 
   _enviarMensagem() {
@@ -83,6 +86,22 @@ class _MensagensState extends State<Mensagens> {
     FirebaseUser usuarioLogado = await auth.currentUser();
     _idUsuarioLogado = usuarioLogado.uid;
     _idUsuarioDestinatario = widget.contato.idUsuario;
+    _adicionarListenerConversas();
+  }
+
+  Stream<QuerySnapshot> _adicionarListenerConversas(){
+    final stream = db
+        .collection("mensagens")
+        .document(_idUsuarioLogado)
+        .collection(_idUsuarioDestinatario).orderBy('dataHora', descending: false)
+        .snapshots();
+
+    stream.listen((dados) {
+      _controller.add(dados);
+      Timer(Duration(seconds: 1), (){
+        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+      });
+    });
   }
 
   @override
@@ -110,7 +129,7 @@ class _MensagensState extends State<Mensagens> {
                 ),
                 decoration: InputDecoration(
                     contentPadding: EdgeInsets.fromLTRB(7, 7, 7, 7),
-                    hintText: "Mensagem",
+                    hintText: "Command",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),
@@ -136,11 +155,7 @@ class _MensagensState extends State<Mensagens> {
     );
 
     var stream = StreamBuilder(
-      stream: db
-          .collection("mensagens")
-          .document(_idUsuarioLogado)
-          .collection(_idUsuarioDestinatario).orderBy('dataHora', descending: false)
-          .snapshots(),
+      stream: _controller.stream,
       builder: (contex, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
@@ -149,8 +164,13 @@ class _MensagensState extends State<Mensagens> {
               child: Column(
                 children: [
                   GreenText("Carregando mensagens"),
-                  CircularProgressIndicator(
-                      backgroundColor: Color(0xff00f004), strokeWidth: 2.0)
+                  Padding(
+                    padding: EdgeInsets.all(20),
+                    child: CircularProgressIndicator(
+                        backgroundColor: Color(0xff00f004),
+                        strokeWidth: 2.0
+                    ),
+                  )
                 ],
               ),
             );
@@ -166,6 +186,7 @@ class _MensagensState extends State<Mensagens> {
               print("Itens: " + querySnapshot.documents.toList().toString());
               return Expanded(
                   child: ListView.builder(
+                    controller: _scrollController,
                 itemCount: querySnapshot.documents.length,
                 itemBuilder: (context, indice) {
 
@@ -192,11 +213,10 @@ class _MensagensState extends State<Mensagens> {
                         decoration: BoxDecoration(
                             color: Colors.black,
                             borderRadius: BorderRadius.all(Radius.circular(8))),
-                        child: GreenText(isContact? "\$" + widget.contato.nome + ": " + item["mensagem"] : "\$Eu: " + item["mensagem"],style: style,)
-                        //item["mensagem"] == "texto"
-                         //   ?GreenText(isContact? "\$" + widget.contato.nome + ": " + item["mensagem"] : "\$Eu: " + item["mensagem"],style: style,)
-                         //    :Container(child: Text("Imagem"),)
-                        //Image.network(item["urlImagem"],),
+                        child: CommandText(
+                          isContact? "\$" + widget.contato.nome + ": " + item["mensagem"] : "\$Eu: " + item["mensagem"],
+                          style: style,
+                        )
                       ),
                     ),
                   );

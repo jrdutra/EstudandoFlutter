@@ -73,8 +73,13 @@ class _AbaConversasState extends State<AbaConversas> {
               child: Column(
                 children: [
                   GreenText("Carregando conversas"),
-                  CircularProgressIndicator(
-                      backgroundColor: Color(0xff00f004), strokeWidth: 2.0)
+                  Padding(
+                    padding: EdgeInsets.all(20),
+                    child: CircularProgressIndicator(
+                        backgroundColor: Color(0xff00f004),
+                        strokeWidth: 2.0
+                    ),
+                  )
                 ],
               ),
             );
