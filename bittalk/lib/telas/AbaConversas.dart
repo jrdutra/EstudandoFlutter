@@ -6,6 +6,7 @@ import 'package:bittalk/model/Usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 class AbaConversas extends StatefulWidget {
   @override
   _AbaConversasState createState() => _AbaConversasState();
@@ -26,11 +27,6 @@ class _AbaConversasState extends State<AbaConversas> {
 
     _recuperarDadosUsuario();
 
-    Conversa conversa = Conversa();
-    conversa.nome = "Ana Clara";
-    conversa.mensagem = "Olá Tudo bem?";
-    conversa.caminhoFoto = "https://firebasestorage.googleapis.com/v0/b/bittalk-708e5.appspot.com/o/perfil%2Fperfil1.jpg?alt=media&token=80804e1a-f6a4-478c-aa9e-2fb3aab5f663";
-    _listaConversas.add(conversa);
 
   }
 
@@ -42,6 +38,21 @@ class _AbaConversasState extends State<AbaConversas> {
 
     stream.listen((dados) {
       _controller.add(dados);
+      _adicionaConversaNaLista(dados.documents);
+    });
+  }
+
+  _adicionaConversaNaLista(List<DocumentSnapshot> snapshots){
+    snapshots.forEach((snapshots) {
+      Conversa conversa = new Conversa.nova(
+          snapshots.data["idRemetente"],
+          snapshots.data["idDestinatario"],
+          snapshots.data["nome"],
+          snapshots.data["mensagem"],
+          snapshots.data["caminhoFoto"],
+          snapshots.data["tipoMensagem"],
+      );
+      _listaConversas.add(conversa);
     });
   }
 
@@ -62,28 +73,30 @@ class _AbaConversasState extends State<AbaConversas> {
   @override
   Widget build(BuildContext context) {
 
-
     return StreamBuilder<QuerySnapshot>(
-        stream: _controller.stream,
+       stream: _controller.stream,
        builder: (contex, snapshot){
           switch (snapshot.connectionState) {
               case ConnectionState.none:
               case ConnectionState.waiting:
-            return Center(
-              child: Column(
-                children: [
-                  GreenText("Loading conversations"),
-                  Padding(
-                    padding: EdgeInsets.all(20),
-                    child: CircularProgressIndicator(
-                        backgroundColor: Color(0xff00f004),
-                        strokeWidth: 2.0
-                    ),
-                  )
-                ],
-              ),
-            );
-            break;
+                return Center(
+                  child: Column(
+                    children: [
+                      Padding(
+                          padding: EdgeInsets.only(top: 20),
+                          child: GreenText("Loading chat")
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(20),
+                        child: CircularProgressIndicator(
+                            backgroundColor: Color(0xff00f004),
+                            strokeWidth: 2.0
+                        ),
+                      )
+                    ],
+                  ),
+                );
+                break;
               case ConnectionState.active:
               case ConnectionState.done:
                   if (snapshot.hasError) {
@@ -103,11 +116,11 @@ class _AbaConversasState extends State<AbaConversas> {
                           List<DocumentSnapshot> conversas = querySnapshot.documents.toList();
                           DocumentSnapshot item = conversas[indice];
 
-                          String urlImagem    = item["caminhoFoto"];
-                          String tipoMensagem = item["tipoMensagem"];
-                          String mensagem      = item["mensagem"];
-                          String nome          = item["nome"];
-                          String idDestinatario     = item["idDestinatario"];
+                          String urlImagem      = item["caminhoFoto"];
+                          String tipoMensagem   = item["tipoMensagem"];
+                          String mensagem       = item["mensagem"];
+                          String nome           = item["nome"];
+                          String idDestinatario = item["idDestinatario"];
 
                           Usuario usuario = Usuario();
                           usuario.nome = nome;

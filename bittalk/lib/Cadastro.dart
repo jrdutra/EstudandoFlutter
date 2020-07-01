@@ -86,7 +86,7 @@ class _CadastroState extends State<Cadastro> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            GreenText("Sigup"),
+            GreenText("Sign up"),
             Image.asset(
               "assets/images/icon.png",
               height: 40,

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>178585031004-e3gchpru8i8gjdocdclua096hmlfjj9d.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.178585031004-e3gchpru8i8gjdocdclua096hmlfjj9d</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCXovrLwzYwFtanKPDnQ8S1dBT0cWjx0wk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>178585031004</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.cursoflutter.jamiltondamasceno.whastapp</string>
+	<key>PROJECT_ID</key>
+	<string>whatsapp-projeto-2fdfb</string>
+	<key>STORAGE_BUCKET</key>
+	<string>whatsapp-projeto-2fdfb.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:178585031004:ios:bb09899492151fc733f199</string>
+	<key>DATABASE_URL</key>
+	<string>https://whatsapp-projeto-2fdfb.firebaseio.com</string>
+</dict>
+</plist>

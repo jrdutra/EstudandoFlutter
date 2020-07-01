@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Conversa {
-
   String _idRemetente;
   String _idDestinatario;
   String _nome;
@@ -9,29 +8,32 @@ class Conversa {
   String _caminhoFoto;
   String _tipoMensagem;
 
-
   Conversa();
 
-  Map<String, dynamic> toMap(){
-    Map<String, dynamic> map = {
-      "idRemetente"    : this.idRemetente,
-      "idDestinatario" : this.idDestinatario,
-      "nome"           : this.nome,
-      "mensagem"       : this.mensagem,
-      "caminhoFoto"    : this.caminhoFoto,
-      "tipoMensagem"   : this.tipoMensagem,
 
+  Conversa.nova(this._idRemetente, this._idDestinatario, this._nome, this._mensagem,
+      this._caminhoFoto, this._tipoMensagem);
+
+  Map<String, dynamic> toMap() {
+    Map<String, dynamic> map = {
+      "idRemetente": this.idRemetente,
+      "idDestinatario": this.idDestinatario,
+      "nome": this.nome,
+      "mensagem": this.mensagem,
+      "caminhoFoto": this.caminhoFoto,
+      "tipoMensagem": this.tipoMensagem,
     };
     return map;
   }
 
-  salvar() async{
+  salvar() async {
     Firestore db = Firestore.instance;
-    await db.collection("conversas")
-    .document(this.idRemetente)
-    .collection("ultima_conversa")
-    .document(this.idDestinatario)
-    .setData(this.toMap());
+    await db
+        .collection("conversas")
+        .document(this.idRemetente)
+        .collection("ultima_conversa")
+        .document(this.idDestinatario)
+        .setData(this.toMap());
   }
 
   String get nome => _nome;
@@ -70,5 +72,9 @@ class Conversa {
     _idRemetente = value;
   }
 
+  @override
+  String toString() {
+    return 'Conversa{_idRemetente: $_idRemetente, _idDestinatario: $_idDestinatario, _nome: $_nome, _mensagem: $_mensagem}';
+  }
 
 }
