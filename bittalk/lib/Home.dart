@@ -5,20 +5,19 @@ import 'package:bittalk/telas/AbaConversas.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_admob/firebase_admob.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
-
 }
 
-class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
-
+class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   TabController _tabController;
-  List<String> _itensMenu = [
-    "Settings", "Logout"
-  ];
+  List<String> _itensMenu = ["Settings", "Logout"];
   String _emailUsuarioLogado = "";
+  String _totalContatos = "0";
 
   //------
   //ADMOB
@@ -47,17 +46,15 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
     },
   );
 
-
   BannerAd _bannerAd;
 
-  _iniciaIntersticial(){
+  _iniciaIntersticial() {
     myInterstitial
       ..load()
       ..show(
           anchorType: AnchorType.bottom,
           anchorOffset: 0.0,
-          horizontalCenterOffset: 0.0
-      );
+          horizontalCenterOffset: 0.0);
   }
 
   //--------
@@ -71,14 +68,15 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
     setState(() {
       _emailUsuarioLogado = usuarioLogado.email;
     });
-
   }
 
   Future _verificaUsuarioLogado() async {
     FirebaseAuth auth = FirebaseAuth.instance;
     FirebaseUser usuarioLogado = await auth.currentUser();
-    if(usuarioLogado == null){
+    if (usuarioLogado == null) {
       Navigator.pushReplacementNamed(context, "/login");
+    }else{
+      _recuperaTotalContatos();
     }
   }
 
@@ -86,7 +84,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
   void initState() {
     //ADMOB
     FirebaseAdMob.instance.initialize(
-        appId: 'ca-app-pub-5851652075835518~3042059836'
+    appId: 'ca-app-pub-5851652075835518~3042059836'
     );
     _bannerAd = myBanner..load()..show(anchorType: AnchorType.bottom);
     _iniciaIntersticial();
@@ -94,27 +92,25 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
     super.initState();
     _verificaUsuarioLogado();
     _recuperarDadosUsuario();
-    _tabController = TabController(
-      length: 2,
-      vsync: this
-    );
+    _tabController = TabController(length: 2, vsync: this);
+
   }
 
   @override
-  void dispose(){
+  void dispose() {
     _bannerAd.dispose();
     myInterstitial.dispose();
     super.dispose();
   }
 
-  _deslogarUsuario() async{
+  _deslogarUsuario() async {
     FirebaseAuth auth = FirebaseAuth.instance;
     await auth.signOut();
     Navigator.pushReplacementNamed(context, "/login");
   }
 
-  _escolhaMenuItem(String itemEscolhido){
-    switch ( itemEscolhido ){
+  _escolhaMenuItem(String itemEscolhido) {
+    switch (itemEscolhido) {
       case "Settings":
         Navigator.pushNamed(context, "/configuracoes");
         break;
@@ -122,6 +118,22 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
         _deslogarUsuario();
         break;
     }
+  }
+
+  _recuperaTotalContatos() async {
+    Firestore db = Firestore.instance;
+
+    QuerySnapshot querySnapshot =
+        await db.collection("usuarios").getDocuments();
+
+    String totalContatos = (querySnapshot.documents.length-1).toString();
+
+      setState(() {
+        _totalContatos = totalContatos;
+      });
+
+
+
   }
 
   @override
@@ -136,52 +148,46 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin{
         bottom: TabBar(
           indicatorWeight: 4,
           labelStyle: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: Color(0xff00f004)
-          ),
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Color(0xff00f004)),
           controller: _tabController,
           indicatorColor: Color(0xff00f004),
           labelColor: Color(0xff00f004),
           tabs: <Widget>[
-            Tab(text: "Chat",),
-            Tab(text: "Users",)
+            Tab(
+              text: "Chat",
+            ),
+            Tab(
+              text: "Users($_totalContatos)",
+            )
           ],
         ),
-
         actions: <Widget>[
           PopupMenuButton<String>(
             color: Colors.black,
             shape: RoundedRectangleBorder(
-              side: BorderSide(
-                  color: Color(0xff00f004),
-                  width: 3
-              )
-            ),
+                side: BorderSide(color: Color(0xff00f004), width: 3)),
             icon: Image.asset(
-                "assets/images/menu-icon.png",
+              "assets/images/menu-icon.png",
               width: 29,
             ),
             onSelected: _escolhaMenuItem,
-            itemBuilder: (context){
-                  return _itensMenu.map((String item){
-                      return PopupMenuItem<String>(
-                        value: item,
-                        child: GreenText(item),
-                      );
-                  }).toList();
+            itemBuilder: (context) {
+              return _itensMenu.map((String item) {
+                return PopupMenuItem<String>(
+                  value: item,
+                  child: GreenText(item),
+                );
+              }).toList();
             },
           )
         ],
       ),
       body: TabBarView(
         controller: _tabController,
-        children: <Widget>[
-          AbaConversas(),
-          AbaContatos()
-        ],
+        children: <Widget>[AbaConversas(), AbaContatos()],
       ),
     );
   }
 }
-

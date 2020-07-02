@@ -41,7 +41,7 @@ class _MensagensState extends State<Mensagens> {
       mensagem.mensagem = textoMensagem;
       mensagem.urlImagem = "";
       mensagem.tipo = "texto";
-      mensagem.dataHora = DateTime.now();
+      mensagem.dataHora = Timestamp.now();
 
       _salvarMensagem(_idUsuarioLogado, _idUsuarioDestinatario, mensagem);
       _salvarMensagem(_idUsuarioDestinatario, _idUsuarioLogado, mensagem);
@@ -60,6 +60,7 @@ class _MensagensState extends State<Mensagens> {
       cRemetente.nome = widget.contato.nome;
       cRemetente.caminhoFoto = widget.contato.urlImagem;
       cRemetente.tipoMensagem = msg.tipo;
+      cRemetente.dataHora = msg.dataHora;
       cRemetente.salvar();
 
       Conversa cDestinatario = Conversa();
@@ -69,6 +70,7 @@ class _MensagensState extends State<Mensagens> {
       cDestinatario.nome = widget.contato.nome;
       cDestinatario.caminhoFoto = widget.contato.urlImagem;
       cDestinatario.tipoMensagem = msg.tipo;
+      cDestinatario.dataHora = msg.dataHora;
       cDestinatario.salvar();
 
   }
@@ -95,7 +97,8 @@ class _MensagensState extends State<Mensagens> {
     final stream = db
         .collection("mensagens")
         .document(_idUsuarioLogado)
-        .collection(_idUsuarioDestinatario).orderBy('dataHora', descending: false)
+        .collection(_idUsuarioDestinatario)
+        .orderBy('dataHora', descending: false)
         .snapshots();
 
     stream.listen((dados) {

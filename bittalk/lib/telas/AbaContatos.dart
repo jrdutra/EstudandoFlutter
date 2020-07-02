@@ -54,61 +54,63 @@ class _AbaContatosState extends State<AbaContatos> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Usuario>>(
-      future: _recuperarContatos(),
-      builder: (context, snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.none:
-          case ConnectionState.waiting:
-            return Center(
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: GreenText("Loading users")
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(20),
-                    child: CircularProgressIndicator(
-                        backgroundColor: Color(0xff00f004),
-                        strokeWidth: 2.0
+    return Container(
+      child: FutureBuilder<List<Usuario>>(
+        future: _recuperarContatos(),
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+            case ConnectionState.waiting:
+              return Center(
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                        padding: EdgeInsets.only(top: 20),
+                        child: GreenText("Loading users")
                     ),
-                  )
-                ],
-              ),
-            );
-            break;
-          case ConnectionState.active:
-          case ConnectionState.done:
-            return ListView.builder(
-              itemCount: snapshot.data.length,
-              itemBuilder: (_, indice) {
+                    Padding(
+                      padding: EdgeInsets.all(20),
+                      child: CircularProgressIndicator(
+                          backgroundColor: Color(0xff00f004),
+                          strokeWidth: 2.0
+                      ),
+                    )
+                  ],
+                ),
+              );
+              break;
+            case ConnectionState.active:
+            case ConnectionState.done:
+              return ListView.builder(
 
-                List<Usuario> listaItens = snapshot.data;
-                Usuario usuario = listaItens[indice];
-                return ListTile(
+                itemCount: snapshot.data.length,
+                itemBuilder: (_, indice) {
+                  List<Usuario> listaItens = snapshot.data;
+                  Usuario usuario = listaItens[indice];
+                  return ListTile(
 
-                  onTap: (){
-                    Navigator.pushNamed(
-                        context,
-                        "/mensagens",
-                      arguments: usuario
-                    );
-                  },
+                      onTap: (){
+                        Navigator.pushNamed(
+                            context,
+                            "/mensagens",
+                            arguments: usuario
+                        );
+                      },
 
-                  contentPadding: EdgeInsets.fromLTRB(14, 1, 14, 1),
-                  leading: GreenCircleAvatar(
-                    raio: 25,
-                    caminho: usuario.urlImagem,
-                  ),
-                  title:GreenText(usuario.nome)
-                );
-              },
-            );
-            break;
-        }
-        return null;
-      },
+                      contentPadding: EdgeInsets.fromLTRB(14, 1, 14, 1),
+                      leading: GreenCircleAvatar(
+                        raio: 25,
+                        caminho: usuario.urlImagem,
+                      ),
+                      title:GreenText(usuario.nome)
+                  );
+                },
+              );
+              break;
+          }
+          return null;
+        },
+      )
     );
   }
 }

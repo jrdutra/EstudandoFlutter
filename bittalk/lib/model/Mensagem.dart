@@ -1,10 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Mensagem {
 
   String _idUsuario;
   String _mensagem;
   String _urlImagem;
   String _tipo;
-  DateTime _dataHora;
+  Timestamp _dataHora;
 
 
   Mensagem();
@@ -21,9 +23,9 @@ class Mensagem {
   }
 
 
-  DateTime get dataHora => _dataHora;
+  Timestamp get dataHora => _dataHora;
 
-  set dataHora(DateTime value) {
+  set dataHora(Timestamp value) {
     _dataHora = value;
   }
 

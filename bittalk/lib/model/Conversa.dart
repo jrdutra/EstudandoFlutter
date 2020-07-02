@@ -7,12 +7,13 @@ class Conversa {
   String _mensagem;
   String _caminhoFoto;
   String _tipoMensagem;
+  Timestamp _dataHora;
 
   Conversa();
 
 
   Conversa.nova(this._idRemetente, this._idDestinatario, this._nome, this._mensagem,
-      this._caminhoFoto, this._tipoMensagem);
+      this._caminhoFoto, this._tipoMensagem, this._dataHora);
 
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = {
@@ -22,6 +23,7 @@ class Conversa {
       "mensagem": this.mensagem,
       "caminhoFoto": this.caminhoFoto,
       "tipoMensagem": this.tipoMensagem,
+      "dataHora": this.dataHora
     };
     return map;
   }
@@ -70,6 +72,13 @@ class Conversa {
 
   set idRemetente(String value) {
     _idRemetente = value;
+  }
+
+
+  Timestamp get dataHora => _dataHora;
+
+  set dataHora(Timestamp value) {
+    _dataHora = value;
   }
 
   @override

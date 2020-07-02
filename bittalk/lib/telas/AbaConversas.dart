@@ -24,16 +24,14 @@ class _AbaConversasState extends State<AbaConversas> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
     _recuperarDadosUsuario();
-
-
   }
 
   Stream<QuerySnapshot>_adicionarListenerConversas(){
     final stream = db.collection("conversas")
         .document(_idUsuarioLogado)
         .collection("ultima_conversa")
+        .orderBy('dataHora', descending: true)
         .snapshots();
 
     stream.listen((dados) {
@@ -51,6 +49,7 @@ class _AbaConversasState extends State<AbaConversas> {
           snapshots.data["mensagem"],
           snapshots.data["caminhoFoto"],
           snapshots.data["tipoMensagem"],
+          snapshots.data["dataHora"]
       );
       _listaConversas.add(conversa);
     });
@@ -66,8 +65,8 @@ class _AbaConversasState extends State<AbaConversas> {
   @override
   void dispose() {
     // TODO: implement dispose
-    super.dispose();
     _controller.close();
+    super.dispose();
   }
 
   @override
