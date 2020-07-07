@@ -83,10 +83,10 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     //ADMOB
-    FirebaseAdMob.instance.initialize(
-    appId: 'ca-app-pub-5851652075835518~3042059836'
-    );
-    _bannerAd = myBanner..load()..show(anchorType: AnchorType.bottom);
+    //FirebaseAdMob.instance.initialize(
+    //appId: 'ca-app-pub-5851652075835518~3042059836'
+    //);
+    //_bannerAd = myBanner..load()..show(anchorType: AnchorType.bottom);
     _iniciaIntersticial();
     //FIM ADDMOB
     super.initState();
@@ -98,8 +98,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   @override
   void dispose() {
-    _bannerAd.dispose();
-    myInterstitial.dispose();
+    //_bannerAd.dispose();
+    //myInterstitial.dispose();
     super.dispose();
   }
 
