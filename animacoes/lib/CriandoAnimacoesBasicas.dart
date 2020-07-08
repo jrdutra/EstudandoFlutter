@@ -17,14 +17,32 @@ class _CriandoAnimacoesBasicasState extends State<CriandoAnimacoesBasicas> {
         title: Text("Meu App"),
         backgroundColor: Colors.green,
       ),
-
+      /*
       body:  AnimatedContainer(
         duration: Duration(milliseconds: 500),
         curve: Curves.fastOutSlowIn,
         color: Colors.green,
         padding: EdgeInsets.all(10),
         height: _status?0:100,
+      ), */
+
+      body:  AnimatedContainer(
+        duration: Duration(milliseconds: 500),
+        curve: Curves.fastOutSlowIn,
+        color: Colors.green,
+        padding: EdgeInsets.only(bottom: 100, top: 20),
+        alignment: _status? Alignment.bottomCenter:Alignment.topCenter,
+        child: Container(
+          height: 50,
+          child: Icon(
+            Icons.airplanemode_active,
+            size: 50,
+            color: Colors.white,
+          ),
+        ),
       ),
+
+
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.orange,
