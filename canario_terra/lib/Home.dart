@@ -1,4 +1,8 @@
+import 'package:canarioterra/widgets/BarraAnimada.dart';
+import 'package:canarioterra/models/Audio.dart';
+import 'package:canarioterra/widgets/CardPlayer.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_admob/firebase_admob.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -7,94 +11,83 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
-  bool _menuAberto = false;
-  IconData _iconeCortina = Icons.keyboard_arrow_down;
-  double _targetValue = 100;
+  //------
+  //ADMOB
+  //-----
+  static const MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
+    keywords: <String>['flutterio', 'beautiful apps'],
+    contentUrl: 'https://flutter.io',
+    childDirected: false,
+    testDevices: <String>[], // Android emulators are considered test devices
+  );
+
+  BannerAd myBanner = BannerAd(
+    adUnitId: 'ca-app-pub-5851652075835518/7918503067',
+    size: AdSize.smartBanner,
+    targetingInfo: targetingInfo,
+    listener: (MobileAdEvent event) {
+      print("BannerAd event is $event");
+    },
+  );
+
+  BannerAd _bannerAd;
+  //------
+  //FIM ADMOB
+  //-----
+
+  @override
+  void initState() {
+    super.initState();
+    //ADMOB
+    FirebaseAdMob.instance.initialize(
+    appId: 'ca-app-pub-5851652075835518/8049454873'
+    );
+    _bannerAd = myBanner..load()..show(anchorType: AnchorType.bottom);
+    //FIM ADDMOB
+  }
+
+  @override
+  void dispose() {
+    _bannerAd.dispose();
+    super.dispose();
+  }
+
+  double _getSmartBannerHeight(BuildContext context) {
+    MediaQueryData mediaScreen = MediaQuery.of(context);
+    double dpHeight = mediaScreen.orientation == Orientation.portrait
+        ? mediaScreen.size.height
+        : mediaScreen.size.width;
+    if (dpHeight <= 400.0) {
+      return 39.0;
+    }
+    if (dpHeight > 720.0) {
+      return 99.0;
+    }
+    return 59.0;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      /*appBar: AppBar(
-        backgroundColor: Colors.green,
-        title: Text("Canário da terra"),
-      ),*/
-      body: Column(
+      body: Stack(
         children: [
-              TweenAnimationBuilder(
-              tween: Tween<double>(begin: 100, end: _targetValue),
-              duration: Duration(milliseconds: 600),
-              curve: Curves.fastOutSlowIn,
-              builder: (BuildContext context, double altura, Widget child) {
-                return Container(
-                  color: Colors.green,
-                  padding: EdgeInsets.fromLTRB(10,30,10,1),
-                  height: altura,
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                        altura > 150
-                        ? Padding(
-                            padding: EdgeInsets.only(bottom: 10),
-                            child: TweenAnimationBuilder(
-                                tween: Tween<double>(begin: 0, end: _targetValue),
-                                duration: Duration(seconds: 1),
-                                curve: Curves.fastOutSlowIn,
-                                builder: (BuildContext context, double alturaWhats, Widget child) {
-                                  return Image.asset(
-                                    "assets/images/whatsIcon.png",
-                                    height: _menuAberto?alturaWhats*0.5:0,
-                                  );
-                                }
-                            ),
-                          )
-                        : Container(),
-                      Row(
-                        mainAxisAlignment: _menuAberto? MainAxisAlignment.center:MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            _menuAberto?"Participe do grupo no WhatsApp":"Canário da Terra",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.normal
-                            ),
-                          ),
-                        ],
-                      ),
-                      GestureDetector(
-                        onTap: (){
-                          setState(() {
-                            _menuAberto = !_menuAberto;
-                            if(_menuAberto){
-                              _iconeCortina = Icons.keyboard_arrow_up;
-                              _targetValue = 200;
-                            }else{
-                              _iconeCortina = Icons.keyboard_arrow_down;
-                              _targetValue = 100;
-                            }
-                          });
-                        },
-                        child: Icon(
-                          _iconeCortina,
-                          color: Colors.white,
-                          size: 30,
-                        ),
-                      )
-                    ],
-                  ),
+          Container(
+            padding: EdgeInsets.only(top: 100, bottom: _getSmartBannerHeight(context)),
+            child: ListView.builder(
+              itemCount: Audio.getAudioTamanho(),
+              itemBuilder: (context, index) {
+                Map<String, String> audio = Audio.getAudioIndice(index);
+                String caminho = audio["caminhoAudio"];
+                String texto = audio["textoAudio"];
+                String titulo = "Canto";
+                return Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: CardPlayer(caminho, texto, titulo)
                 );
               },
             ),
-          //Conteudo do app
-          Container(
-            padding: EdgeInsets.all(16),
-            child: Column(
-              children: [
-                Text("Conteudo aqui")
-              ],
-            ),
           ),
+          BarraAnimada()
         ],
       )
     );
