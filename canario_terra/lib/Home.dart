@@ -37,13 +37,14 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    super.initState();
     //ADMOB
     FirebaseAdMob.instance.initialize(
-    appId: 'ca-app-pub-5851652075835518/8049454873'
+        appId: 'ca-app-pub-5851652075835518~6927944899'
     );
     _bannerAd = myBanner..load()..show(anchorType: AnchorType.bottom);
     //FIM ADDMOB
+    super.initState();
+
   }
 
   @override

@@ -9,6 +9,10 @@ class Audio {
       "caminhoAudio": "Carretilha.mp3"
     },
     {
+      "textoAudio": "Classico",
+      "caminhoAudio": "Classico.mp3"
+    },
+    {
       "textoAudio": "Estalo",
       "caminhoAudio": "Estalo.mp3"
     },
@@ -29,6 +33,10 @@ class Audio {
       "caminhoAudio": "machoEFemea.mp3"
     },
     {
+      "textoAudio": "Mateiro",
+      "caminhoAudio": "Mateiro.mp3"
+    },
+    {
       "textoAudio": "Metralha de 1 Nota",
       "caminhoAudio": "Metralha-1-Nota.mp3"
     },
@@ -39,6 +47,10 @@ class Audio {
     {
       "textoAudio": "Paulistinha",
       "caminhoAudio": "paulistinha.mp3"
+    },
+    {
+      "textoAudio": "Peruano",
+      "caminhoAudio": "Peruano.mp3"
     },
     {
       "textoAudio": "Retinido",
