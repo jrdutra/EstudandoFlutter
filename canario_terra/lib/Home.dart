@@ -1,6 +1,5 @@
 import 'package:canarioterra/widgets/BarraAnimada.dart';
-import 'package:canarioterra/models/Audio.dart';
-import 'package:canarioterra/widgets/CardPlayer.dart';
+import 'package:canarioterra/widgets/Corpo.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_admob/firebase_admob.dart';
 
@@ -53,41 +52,12 @@ class _HomeState extends State<Home> {
     super.dispose();
   }
 
-  double _getSmartBannerHeight(BuildContext context) {
-    MediaQueryData mediaScreen = MediaQuery.of(context);
-    double dpHeight = mediaScreen.orientation == Orientation.portrait
-        ? mediaScreen.size.height
-        : mediaScreen.size.width;
-    if (dpHeight <= 400.0) {
-      return 39.0;
-    }
-    if (dpHeight > 720.0) {
-      return 99.0;
-    }
-    return 59.0;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
-          Container(
-            padding: EdgeInsets.only(top: 100, bottom: _getSmartBannerHeight(context)),
-            child: ListView.builder(
-              itemCount: Audio.getAudioTamanho(),
-              itemBuilder: (context, index) {
-                Map<String, String> audio = Audio.getAudioIndice(index);
-                String caminho = audio["caminhoAudio"];
-                String texto = audio["textoAudio"];
-                String titulo = "Canto";
-                return Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: CardPlayer(caminho, texto, titulo)
-                );
-              },
-            ),
-          ),
+          Corpo(),
           BarraAnimada()
         ],
       )
