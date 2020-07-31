@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'coin_data.dart';
 import 'dart:io' show Platform;
+import 'coin_data.dart';
 
 class PriceScreen extends StatefulWidget {
   @override
@@ -53,11 +54,15 @@ class _PriceScreenState extends State<PriceScreen> {
   @override
   void initState() {
     super.initState();
+
     //TODO: Call getData() when the screen loads up.
   }
 
   @override
   Widget build(BuildContext context) {
+
+
+
     return Scaffold(
       appBar: AppBar(
         title: Text('🤑 Coin Ticker'),
