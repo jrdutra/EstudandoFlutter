@@ -40,14 +40,13 @@ class CoinData {
 
   String url;
 
-  void getCoinData() async {
+  Future getCoinData() async {
       http.Response response = await http.get(
           '$coinAPIURL/BTC/USD/',
           headers: {'X-CoinAPI-Key': '$apiKey'},
       );
       if(response.statusCode == 200){
         String data = response.body;
-        print(jsonDecode(data));
         return jsonDecode(data);
       }else{
         print(response.statusCode);
