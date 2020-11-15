@@ -1,6 +1,8 @@
 # bittalk
 
-A new Flutter application.
+A smal chat like a linux terminal. You can find this APP at [Google Play](https://play.google.com/store/apps/details?id=com.joaoricardocoredutra.bittalk)
+
+
 
 ## Getting Started
 
